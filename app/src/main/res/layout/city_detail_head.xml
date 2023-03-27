@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="?attr/surface_surface_1">
+
+    <include
+        layout="@layout/city_detail_basic"
+        android:id="@+id/basic_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/separator"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginStart="16dp"
+        app:dividerColor="@color/neutrals_n_lv_3"
+        app:layout_constraintTop_toBottomOf="@+id/basic_info"
+        app:layout_constraintBottom_toTopOf="@id/wind_parameter"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+    <include
+        layout="@layout/city_detail_parameter"
+        android:id="@+id/temperature_parameter"
+        android:layout_width="120dp"
+        android:layout_height="96dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/separator"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/wind_parameter" />
+
+    <include
+        layout="@layout/city_detail_parameter"
+        android:id="@+id/wind_parameter"
+        android:layout_width="120dp"
+        android:layout_height="96dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/separator"
+        app:layout_constraintStart_toEndOf="@id/temperature_parameter"
+        app:layout_constraintEnd_toStartOf="@+id/humidity_parameter" />
+
+    <include
+        android:id="@+id/humidity_parameter"
+        layout="@layout/city_detail_parameter"
+        android:layout_width="120dp"
+        android:layout_height="96dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/wind_parameter"
+        app:layout_constraintTop_toBottomOf="@id/separator" />
+
+    <include
+        layout="@layout/city_detail_parameter"
+        android:id="@+id/pressure_parameter"
+        android:layout_width="120dp"
+        android:layout_height="96dp"
+        app:layout_constraintTop_toBottomOf="@id/temperature_parameter"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/visibility_parameter" />
+
+    <include
+        layout="@layout/city_detail_parameter"
+        android:id="@+id/visibility_parameter"
+        android:layout_width="120dp"
+        android:layout_height="96dp"
+        app:layout_constraintTop_toBottomOf="@id/wind_parameter"
+        app:layout_constraintStart_toEndOf="@id/pressure_parameter"
+        app:layout_constraintEnd_toStartOf="@+id/accuracy_parameter" />
+
+    <include
+        android:id="@+id/accuracy_parameter"
+        layout="@layout/city_detail_parameter"
+        android:layout_width="120dp"
+        android:layout_height="96dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/visibility_parameter"
+        app:layout_constraintTop_toBottomOf="@id/humidity_parameter" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <attr name="on_color" format="reference" />
+    <attr name="neutrals_n_lv_1" format="reference" />
+    <attr name="neutrals_n_lv_2" format="reference" />
+    <attr name="neutrals_n_lv_3" format="reference" />
+    <attr name="surface_surface_0" format="reference" />
+    <attr name="surface_surface_1" format="reference" />
+    <attr name="surface_surface_2" format="reference" />
+    <attr name="status_success" format="reference" />
+    <attr name="status_error" format="reference" />
+    <attr name="elevation_elevation_1" format="reference" />
+    <attr name="elevation_elevation_2" format="reference" />
+    <attr name="surface_none" format="reference" />
+    <attr name="color_secondary" format="reference"/>
+
+</resources>

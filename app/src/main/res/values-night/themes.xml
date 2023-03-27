@@ -1,0 +1,31 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.WeatherAppSofaScore" parent="Theme.Material3.DayNight">
+        <item name="colorPrimary">@color/color_primary_dark</item>
+        <item name="colorSecondary">@color/color_secondary_dark</item>
+        <item name="on_color">@color/on_color_dark</item>
+        <item name="neutrals_n_lv_1">@color/neutrals_n_lv_1_dark</item>
+        <item name="neutrals_n_lv_2">@color/neutrals_n_lv_2_dark</item>
+        <item name="neutrals_n_lv_3">@color/neutrals_n_lv_3_dark</item>
+        <item name="surface_surface_0">@color/surface_surface_0_dark</item>
+        <item name="surface_surface_1">@color/surface_surface_1_dark</item>
+        <item name="surface_surface_2">@color/surface_surface_2_dark</item>
+        <item name="status_success">@color/status_success</item>
+        <item name="status_error">@color/status_error</item>
+        <item name="elevation_elevation_1">@color/elevation_elevation_1_dark</item>
+        <item name="elevation_elevation_2">@color/elevation_elevation_2_dark</item>
+        <item name="overlay">@color/overlay_dark</item>
+        <item name="surface_none">@color/surface_none_dark</item>
+
+    </style>
+
+    <style name="Theme.WeatherAppSofaScore" parent="Base.Theme.WeatherAppSofaScore" />
+
+
+    <style name="Theme.WeatherAppSofaScore.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.WeatherAppSofaScore.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+
+
+</resources>
