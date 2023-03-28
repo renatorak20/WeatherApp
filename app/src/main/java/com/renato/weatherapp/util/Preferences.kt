@@ -25,7 +25,7 @@ class Preferences(private val activity: Activity) {
     }
 
     fun getCurrentUnits(): Boolean {
-        return preferences.getString(extrasUnit[0], extrasUnit[1]).toString() == resources.getString(R.string.metric)
+        return preferences.getString(extrasUnit[0], extrasUnit[1]).toString() == extrasUnit[1].toString()
     }
 
     private fun restartApp() {
