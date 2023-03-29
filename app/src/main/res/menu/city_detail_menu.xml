@@ -7,9 +7,4 @@
         android:title="@string/favourite_item"
         app:showAsAction="always" />
 
-    <item android:id="@+id/menu_item_favourite_checked"
-        android:icon="@drawable/ic_star_filled"
-        android:title="@string/favourite_item"
-        app:showAsAction="always" />
-
 </menu>

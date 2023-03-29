@@ -31,7 +31,7 @@ class SearchFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentSearchBinding.inflate(layoutInflater)
 
         sharedViewModel = ViewModelProvider(requireActivity())[SharedViewModel::class.java]
@@ -48,6 +48,7 @@ class SearchFragment : Fragment() {
                 val adapter = cities.body()
                     ?.let { cities -> ArrayAdapter(requireContext(), R.layout.autocomplete_result_item, cities.map { it.name }) }
                 binding.autoCompleteCity.setAdapter(adapter)
+                binding.autoCompleteCity.showDropDown()
             }else{
                 showErrorDialog()
             }
@@ -55,6 +56,10 @@ class SearchFragment : Fragment() {
 
         sharedViewModel.getForecast().observe(viewLifecycleOwner) { city ->
             if(city.isSuccessful){
+
+                binding.autoCompleteCity.clear()
+                binding.autoCompleteCity.setAdapter(null)
+
                 startActivity(
                     Intent(requireContext(), CityDetailActivity::class.java).putExtra(
                         getString(R.string.passing_data),
@@ -71,7 +76,7 @@ class SearchFragment : Fragment() {
             binding.autoCompleteCity.clear()
         }
 
-        binding.autoCompleteCity.threshold = 3
+        binding.autoCompleteCity.threshold = 2
         binding.autoCompleteCity.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
@@ -92,6 +97,8 @@ class SearchFragment : Fragment() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if(s?.length!! == 3 && checkForInternet()){
                     sharedViewModel.getNewAutoCompleteList(s.toString())
+                }else if(s.isEmpty()){
+                    binding.autoCompleteCity.setAdapter(null)
                 }
             }
         })

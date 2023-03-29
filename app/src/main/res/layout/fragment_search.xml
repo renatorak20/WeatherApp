@@ -29,10 +29,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginEnd="10dp"
-                android:hint="@string/search_bar_hint"
                 android:background="@drawable/search_rounded_background"
                 android:drawableLeft="@drawable/ic_search"
                 android:drawableTint="?attr/neutrals_n_lv_2"
+                android:hint="@string/search_bar_hint"
                 android:inputType="text"
                 android:textColor="?attr/neutrals_n_lv_2" />
 
@@ -40,11 +40,11 @@
                 android:id="@+id/clear_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="15dp"
-                android:layout_marginTop="20dp"
-                app:tint="?attr/neutrals_n_lv_2"
                 android:layout_alignEnd="@+id/autoCompleteCity"
-                android:src="@drawable/ic_close" />
+                android:layout_marginTop="13dp"
+                android:layout_marginEnd="15dp"
+                android:src="@drawable/ic_close"
+                app:tint="?attr/neutrals_n_lv_2" />
 
         </RelativeLayout>
 

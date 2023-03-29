@@ -7,4 +7,10 @@
         <item>imperial</item>
     </string-array>
 
+    <string-array name="languages">
+        <item>lang</item>
+        <item>en</item>
+        <item>hr</item>
+    </string-array>
+
 </resources>
