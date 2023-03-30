@@ -1,15 +1,11 @@
 package com.renato.weatherapp.data.model
 
-import android.util.Log
 import java.io.Serializable
-import java.lang.StringBuilder
 import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.ZoneId
-import java.time.ZonedDateTime
+import java.time.*
 import java.time.format.DateTimeFormatter
 import kotlin.collections.ArrayList
+import kotlin.math.abs
 
 data class WeatherResponseForecast(
     val location: Location,
@@ -35,13 +31,17 @@ data class Location(
 
     fun getCurrentTime():String{
 
-        val localDateTime = LocalDateTime.parse(localtime, DateTimeFormatter.ofPattern("yyyy-MM-dd H:mm"))
+        val zone = ZoneId.of(tz_id)
+        val offset = zone.rules.getOffset(Instant.now()) as ZoneOffset
+        val hours = offset.totalSeconds / 3600
+        val timezone = " (GMT${if (hours > 0) "+${abs(hours)}" else if(hours < 0) "-${abs(hours)}" else ""})"
 
-        val zoneId = ZoneId.of(tz_id)
-        val zonedDateTime = ZonedDateTime.of(localDateTime, zoneId)
-        val formatter = DateTimeFormatter.ofPattern("HH:mm a (zzz)")
+        val inputFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd H:mm")
+        val outputFormat = DateTimeFormatter.ofPattern("H:mm a")
+        val dateTime = LocalDateTime.parse(localtime, inputFormat)
 
-        return zonedDateTime.format(formatter).replace("am", "AM").replace("pm", "PM")
+        return dateTime.format(outputFormat) + timezone
+
     }
 
     fun getCurrentHour():Int{
@@ -136,7 +136,7 @@ data class Hour(
     }
 
     fun getMetricWind():String{
-        var wind_direction = ""
+        var wind_direction: String
         return if(wind_dir.length == 3){
             wind_direction = wind_dir.substring(0,1) + "/" + wind_dir.substring(1)
             "${wind_kph.toInt()} km/h (${wind_direction})"
