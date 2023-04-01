@@ -60,6 +60,7 @@
     <string name="view_more">VIŠE</string>
     <string name="next_days">Sljedećih 7 dana</string>
     <string name="today">Danas</string>
+    <string name="loading">Učitavanje...</string>
 
 
 </resources>

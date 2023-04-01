@@ -43,34 +43,21 @@ class SearchFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-        sharedViewModel.getAutoCompleteList().observe(viewLifecycleOwner){ cities ->
-            if(cities.body()!!.isNotEmpty() && cities.isSuccessful){
+        sharedViewModel.getAutoCompleteList().observe(viewLifecycleOwner) { cities ->
+            if (cities.body()!!.isNotEmpty() && cities.isSuccessful) {
                 val adapter = cities.body()
-                    ?.let { cities -> ArrayAdapter(requireContext(), R.layout.autocomplete_result_item, cities.map { it.name }) }
+                    ?.let { cities ->
+                        ArrayAdapter(
+                            requireContext(),
+                            R.layout.autocomplete_result_item,
+                            cities.map { it.name })
+                    }
                 binding.autoCompleteCity.setAdapter(adapter)
                 binding.autoCompleteCity.showDropDown()
-            }else{
-                showErrorDialog()
+            } else {
+                Utils().showErrorDialog(requireContext())
             }
         }
-
-        sharedViewModel.getForecast().observe(viewLifecycleOwner) { city ->
-            if(city.isSuccessful){
-
-                binding.autoCompleteCity.clear()
-                binding.autoCompleteCity.setAdapter(null)
-
-                startActivity(
-                    Intent(requireContext(), CityDetailActivity::class.java).putExtra(
-                        getString(R.string.passing_data),
-                        city.body()
-                    ).addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
-                )
-            }else{
-                showErrorDialog()
-            }
-        }
-
 
         binding.clearIcon.setOnClickListener {
             binding.autoCompleteCity.clear()
@@ -83,29 +70,32 @@ class SearchFragment : Fragment() {
             }
 
             override fun afterTextChanged(text: Editable?) {
-                binding.autoCompleteCity.setOnKeyListener { view, code, keyEvent ->  run {
-                    if (code == KeyEvent.KEYCODE_ENTER && keyEvent.action == KeyEvent.ACTION_DOWN && checkForInternet() && !binding.autoCompleteCity.text.equals("")) {
-
-                        sharedViewModel.getNewForecast(binding.autoCompleteCity.text.toString())
-                        dismissKeyboard(view.windowToken)
+                binding.autoCompleteCity.setOnKeyListener { view, code, keyEvent ->
+                    run {
+                        if (code == KeyEvent.KEYCODE_ENTER && keyEvent.action == KeyEvent.ACTION_DOWN && checkForInternet() && !binding.autoCompleteCity.text.equals(
+                                ""
+                            )
+                        ) {
+                            dismissKeyboard(view.windowToken)
+                            startCityDetailActivity()
+                        }
                     }
-                }
                     false
                 }
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if(s?.length!! == 3 && checkForInternet()){
+                if (s?.length!! == 3 && checkForInternet()) {
                     sharedViewModel.getNewAutoCompleteList(s.toString())
-                }else if(s.isEmpty()){
+                } else if (s.isEmpty()) {
                     binding.autoCompleteCity.setAdapter(null)
                 }
             }
         })
     }
 
-    fun checkForInternet():Boolean{
-        return if(!Utils().isNetworkAvailable(requireContext())){
+    fun checkForInternet(): Boolean {
+        return if (!Utils().isNetworkAvailable(requireContext())) {
             MaterialAlertDialogBuilder(requireContext())
                 .setTitle(getString(R.string.error_title))
                 .setMessage(getString(R.string.error_message))
@@ -117,7 +107,7 @@ class SearchFragment : Fragment() {
                 }
                 .show()
             false
-        }else{
+        } else {
             sharedViewModel.getNewAutoCompleteList(binding.autoCompleteCity.text.toString())
             true
         }
@@ -128,18 +118,18 @@ class SearchFragment : Fragment() {
         imm?.hideSoftInputFromWindow(windowToken, 0)
     }
 
-    fun showErrorDialog(){
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle(getString(R.string.error))
-            .setMessage(getString(R.string.httpError))
-            .setNeutralButton(getString(R.string.ok)){ dialog, which ->
-                binding.autoCompleteCity.clear()
-            }
-            .show()
+
+    fun AutoCompleteTextView.clear() {
+        this.text.clear()
     }
 
-    fun AutoCompleteTextView.clear(){
-        this.text.clear()
+    fun startCityDetailActivity() {
+        startActivity(
+            Intent(requireContext(), CityDetailActivity::class.java).putExtra(
+                getString(R.string.passing_data),
+                binding.autoCompleteCity.text.toString()
+            ).addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+        )
     }
 
 }

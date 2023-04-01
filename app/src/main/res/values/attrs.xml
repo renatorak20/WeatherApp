@@ -13,6 +13,11 @@
     <attr name="elevation_elevation_1" format="reference" />
     <attr name="elevation_elevation_2" format="reference" />
     <attr name="surface_none" format="reference" />
-    <attr name="color_secondary" format="reference"/>
+    <attr name="color_secondary" format="reference" />
+
+    <declare-styleable name="CityDetailParameter">
+        <attr name="parameterTitle" format="string" />
+        <attr name="parameterIcon" format="integer" />
+    </declare-styleable>
 
 </resources>

@@ -12,30 +12,33 @@ import retrofit2.Response
 
 class SharedViewModel : ViewModel() {
 
-    private val _autocompleteList = MutableLiveData<Response<ArrayList<WeatherAutoCompleteResponse>>>()
-    private val _forecast = SingleLiveEvent<Response<WeatherResponseForecast>>()
+    private val _autocompleteList =
+        MutableLiveData<Response<ArrayList<WeatherAutoCompleteResponse>>>()
+    private val _forecast = MutableLiveData<Response<WeatherResponseForecast>>()
 
     private val apiKey = "b0cdddd07d474c2ba10190718232303"
 
-    fun setAutoCompleteList(results:Response<ArrayList<WeatherAutoCompleteResponse>>){
+    fun setAutoCompleteList(results: Response<ArrayList<WeatherAutoCompleteResponse>>) {
         _autocompleteList.value = results
     }
-    fun setForecast(results: Response<WeatherResponseForecast>){
+
+    fun setForecast(results: Response<WeatherResponseForecast>) {
         _forecast.value = results
     }
 
     fun getAutoCompleteList(): MutableLiveData<Response<ArrayList<WeatherAutoCompleteResponse>>> {
         return _autocompleteList
     }
-    fun getForecast(): SingleLiveEvent<Response<WeatherResponseForecast>> {
+
+    fun getForecast(): MutableLiveData<Response<WeatherResponseForecast>> {
         return _forecast
     }
 
 
-    fun getNewForecast(city:String){
+    fun getNewForecast(city: String) {
         viewModelScope.launch {
             val forecastResponse = Network().getService().getForecast(apiKey, city, 8)
-            if(forecastResponse.isSuccessful){
+            if (forecastResponse.isSuccessful) {
                 setForecast(forecastResponse)
             }
         }
