@@ -1,0 +1,32 @@
+<resources>
+    <style name="Base.Theme.WeatherAppSofaScore" parent="Theme.Material3.DayNight">
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorSecondary">@color/color_secondary</item>
+        <item name="on_color">@color/on_color</item>
+        <item name="neutrals_n_lv_1">@color/neutrals_n_lv_1</item>
+        <item name="neutrals_n_lv_2">@color/neutrals_n_lv_2</item>
+        <item name="neutrals_n_lv_3">@color/neutrals_n_lv_3</item>
+        <item name="surface_surface_0">@color/surface_surface_0</item>
+        <item name="surface_surface_1">@color/surface_surface_1</item>
+        <item name="surface_surface_2">@color/surface_surface_2</item>
+        <item name="status_success">@color/status_success</item>
+        <item name="status_error">@color/status_error</item>
+        <item name="elevation_elevation_1">@color/elevation_elevation_1</item>
+        <item name="elevation_elevation_2">@color/elevation_elevation_2</item>
+        <item name="overlay">@color/overlay</item>
+        <item name="surface_none">@color/surface_none</item>
+
+    </style>
+
+    <style name="Theme.WeatherAppSofaScore" parent="Base.Theme.WeatherAppSofaScore" />
+
+    <style name="Theme.WeatherAppSofaScore.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.WeatherAppSofaScore.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.WeatherAppSofaScore.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+</resources>

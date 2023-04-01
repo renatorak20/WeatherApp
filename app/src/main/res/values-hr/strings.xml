@@ -1,0 +1,66 @@
+<resources>
+    <string name="app_name">WeatherAppSofaScore</string>
+
+    <string name="search_fragment_label">Pretraži</string>
+    <string name="myCities_fragment_label">Moji gradovi</string>
+
+    <string name="title_activity_city_detail">CityDetailActivity</string>
+
+    <string name="minMax">MIN / MAKS</string>
+    <string name="wind">VJETAR</string>
+    <string name="humidity">VLAŽNOST</string>
+    <string name="pressure">PRITISAK</string>
+    <string name="visibility">VIDLJIVOST</string>
+    <string name="accuracy">TOČNOST</string>
+
+    <!--ABOUT ACTIVITY -->
+    <string name="aboutTitle">O nama</string>
+    <string name="sofaScoreTitle">SofaScore Academy</string>
+    <string name="classTitle">Razred 2023</string>
+    <string name="appNameTitle">Ime Aplikacije</string>
+    <string name="appNameValue">Weather App</string>
+    <string name="apiCreditTitle">API Credit</string>
+    <string name="apiCreditValue">Weather API</string>
+    <string name="developerTitle">Developer</string>
+    <string name="developerValue">Renato Rak</string>
+
+    <!--SETTINGS FRAGMENT-->
+    <string name="settingsTitle">Postavke</string>
+    <string name="languageSpinnerHint">Jezik</string>
+    <string name="citySpinnerHint">Grad</string>
+    <string name="chooseTypeUnit">Odaberite vrstu jedinice</string>
+    <string name="metric">Metrički</string>
+    <string name="imperial">Imperijalni</string>
+    <string name="large_text">Ova aplikacija je napravljena na SofaScore Android Akademiji 2023. godine u Zagrebu.</string>
+    <string name="moreInfo">Više Informacija</string>
+    <string name="clearMyCitiesList">OBRIŠI POPIS MOJIH GRADOVA</string>
+    <string name="clearRecentSearchList">OBRIŠI POPIS NEDAVNIH PRETRAŽIVANJA</string>
+    <string name="croatian">Hrvatski</string>
+    <string name="english">Engleski</string>
+
+    <!--MY CITITES FRAGMENT-->
+    <string name="myCitiesTitle">Moji Gradovi</string>
+    <string name="calendar_item">Calendar Item</string>
+    <string name="edit_item">Edit Item</string>
+    <string name="done_item">Done Item</string>
+
+    <!-- SEARCH FRAGMENT-->
+    <string name="search_bar_hint">Pretraži Gradove</string>
+    <string name="error_title">Nema internetske veze</string>
+    <string name="error_message">Povežite se s internetom za nastavak.</string>
+    <string name="cancel">Odustani</string>
+    <string name="retry">Pokušaj ponovno</string>
+    <string name="ok">U redu</string>
+    <string name="error">Pogreška</string>
+    <string name="httpError">Oops! Trenutno nema prognoze za tebe, pokušaj ponovno kasnije!</string>
+
+    <!-- CITY DETAIL ACTIVITY-->
+    <string name="favourite_item">Favourite Item</string>
+    <string name="title_activity_scrolling">ScrollingActivity</string>
+    <string name="view_more">VIŠE</string>
+    <string name="next_days">Sljedećih 7 dana</string>
+    <string name="today">Danas</string>
+    <string name="loading">Učitavanje...</string>
+
+
+</resources>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="units">
+        <item>unit</item>
+        <item>metric</item>
+        <item>imperial</item>
+    </string-array>
+
+    <string-array name="languages">
+        <item>lang</item>
+        <item>en</item>
+        <item>hr</item>
+    </string-array>
+
+</resources>

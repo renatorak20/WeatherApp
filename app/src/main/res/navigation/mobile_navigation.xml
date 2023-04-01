@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@id/navigation_search">
+
+    <fragment
+        android:id="@+id/navigation_search"
+        android:name="com.renato.weatherapp.ui.fragments.SearchFragment"
+        android:label="@string/search_fragment_label"
+        tools:layout="@layout/fragment_search"/>
+    <fragment
+        android:id="@+id/navigation_my_cities"
+        android:name="com.renato.weatherapp.ui.fragments.MyCitiesFragment"
+        android:label="@string/myCities_fragment_label"
+        tools:layout="@layout/fragment_my_cities"/>
+    <fragment
+        android:id="@+id/navigation_setting"
+        android:name="com.renato.weatherapp.ui.fragments.SettingsFragment"
+        android:label="@string/settingsTitle"
+        tools:layout="@layout/fragment_settings"/>
+
+</navigation>
