@@ -13,4 +13,9 @@
         <item>hr</item>
     </string-array>
 
+    <string-array name="latlng">
+        <item>lat</item>
+        <item>lng</item>
+    </string-array>
+
 </resources>

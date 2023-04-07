@@ -1,13 +1,11 @@
 package com.renato.weatherapp
 
-import android.graphics.PorterDuff
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -28,6 +26,7 @@ class CityDetailActivity : AppCompatActivity() {
     private lateinit var cityToLoad: String
     private lateinit var city: WeatherResponseForecast
     private lateinit var toolbar: Toolbar
+    private lateinit var toolbarItem: MenuItem
     private lateinit var sharedViewModel: SharedViewModel
     private var iconFlag = false
 
@@ -60,13 +59,18 @@ class CityDetailActivity : AppCompatActivity() {
             }
         }
 
+        sharedViewModel.getFavourites().observe(this) { cities ->
+            if (cities.map { it.cityName }.toList().contains(cityToLoad)) {
+                toolbarItem.setIcon(R.drawable.ic_star_filled)
+            } else {
+                toolbarItem.setIcon(R.drawable.ic_star_outline)
+            }
+        }
+
         sharedViewModel.getNewForecast(cityToLoad)
 
 
         currentUnits = Preferences(this).getCurrentUnits()
-
-
-
 
         binding.back.setOnClickListener {
             finish()
@@ -113,7 +117,7 @@ class CityDetailActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.city_detail_menu, menu)
-
+        toolbarItem = menu!!.findItem(R.id.menu_item_favourite)
         return true
     }
 
@@ -124,6 +128,7 @@ class CityDetailActivity : AppCompatActivity() {
                 item.setIcon(R.drawable.ic_star_outline)
             } else {
                 item.setIcon(R.drawable.ic_star_filled)
+                sharedViewModel.addCityToFavourites(this)
             }
             iconFlag = !iconFlag
         }

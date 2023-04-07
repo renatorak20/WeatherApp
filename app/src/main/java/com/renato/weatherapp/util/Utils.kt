@@ -3,15 +3,19 @@ package com.renato.weatherapp.util
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
+import android.location.Location
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
+import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.compose.ui.res.booleanResource
 import coil.load
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.renato.weatherapp.R
 import com.renato.weatherapp.data.model.Hour
+import com.renato.weatherapp.data.model.FavouriteWeather
+import com.renato.weatherapp.data.model.WeatherRecent
 import com.renato.weatherapp.data.model.WeatherResponseForecast
 import com.renato.weatherapp.ui.custom.CityDetailParameter
 
@@ -126,4 +130,46 @@ class Utils {
         imageView.load(activity.resources.getString(R.string.iconUrl, city.current.condition.icon))
     }
 
+    fun weatherToFavourites(weather: WeatherResponseForecast): FavouriteWeather {
+        val newWeather = FavouriteWeather(
+            weather.location.name,
+            weather.location.localtime_epoch,
+            weather.location.tz_id,
+            weather.current.temp_c.toInt(),
+            weather.current.temp_f.toInt(),
+            weather.current.condition.icon
+        )
+        return newWeather
+    }
+
+    fun weatherToRecent(weather: WeatherResponseForecast, activity: Activity): WeatherRecent {
+
+        val preferedLatLng = Preferences(activity).getPreferedLatLng()
+
+        val newWeather = WeatherRecent(
+            weather.location.name,
+            weather.location.lat,
+            weather.location.lon,
+            getDistanceKm(weather.location.lat, weather.location.lon, preferedLatLng),
+            getDistanceMil(weather.location.lat, weather.location.lon, preferedLatLng),
+            weather.current.temp_c.toInt(),
+            weather.current.temp_f.toInt(),
+            weather.current.condition.icon
+        )
+        return newWeather
+    }
+
+    fun getDistanceKm(lat: Double, lon: Double, latLng: LatLng): Int {
+        val results = FloatArray(1)
+        Location.distanceBetween(lat, lon, latLng.latitude, latLng.longitude, results)
+        Log.i("RESULTS", results[0].toString())
+        return (results[0] / 1000).toInt()
+    }
+
+    fun getDistanceMil(lat: Double, lon: Double, latLng: LatLng): Int {
+        val results = FloatArray(1)
+        Location.distanceBetween(lat, lon, latLng.latitude, latLng.longitude, results)
+        Log.i("RESULTS", results[0].toString())
+        return (results[0] * 0.000621371).toInt()
+    }
 }

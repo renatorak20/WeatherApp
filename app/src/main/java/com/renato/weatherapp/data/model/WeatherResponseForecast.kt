@@ -3,6 +3,7 @@ package com.renato.weatherapp.data.model
 import android.content.Context
 import android.content.res.Resources
 import android.provider.Settings.Global.getString
+import androidx.room.Entity
 import com.renato.weatherapp.R
 import java.io.Serializable
 import java.text.SimpleDateFormat

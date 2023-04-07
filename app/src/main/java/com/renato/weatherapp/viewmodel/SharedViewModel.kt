@@ -1,23 +1,29 @@
 package com.renato.weatherapp.viewmodel
 
-import androidx.lifecycle.LiveData
+import android.content.Context
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.renato.weatherapp.data.model.WeatherAutoCompleteResponse
+import com.renato.weatherapp.data.model.FavouriteWeather
+import com.renato.weatherapp.data.model.WeatherRecent
 import com.renato.weatherapp.data.model.WeatherResponseForecast
 import com.renato.weatherapp.data.networking.Network
-import com.renato.weatherapp.data.networking.WeatherService
-import dagger.hilt.android.lifecycle.HiltViewModel
+import com.renato.weatherapp.database.WeatherApiDatabase
+import com.renato.weatherapp.util.Utils
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import okhttp3.internal.wait
 import retrofit2.Response
-import javax.inject.Inject
 
 class SharedViewModel : ViewModel() {
 
     private val _autocompleteList =
         MutableLiveData<Response<ArrayList<WeatherAutoCompleteResponse>>>()
     private val _forecast = MutableLiveData<Response<WeatherResponseForecast>>()
+    private val _favourites = MutableLiveData<List<FavouriteWeather>>()
+    private val _recents = MutableLiveData<List<WeatherRecent>>()
 
     private val apiKey = "6c0c76f140cf4673aaa80504230704"
 
@@ -29,12 +35,36 @@ class SharedViewModel : ViewModel() {
         _forecast.value = results
     }
 
+    fun getCurrentFavourites(context: Context) {
+        viewModelScope.launch {
+            val database = WeatherApiDatabase.getDatabase(context)
+            val allFavourites = async { database?.weatherDao()?.getAllFavourites() }
+            _favourites.value = allFavourites.await()
+        }
+    }
+
+    fun getCurrentRecents(context: Context) {
+        viewModelScope.launch {
+            val database = WeatherApiDatabase.getDatabase(context)
+            val allRecents = async { database?.weatherDao()?.getAllRecents() }
+            _recents.value = allRecents.await()
+        }
+    }
+
     fun getAutoCompleteList(): MutableLiveData<Response<ArrayList<WeatherAutoCompleteResponse>>> {
         return _autocompleteList
     }
 
     fun getForecast(): MutableLiveData<Response<WeatherResponseForecast>> {
         return _forecast
+    }
+
+    fun getFavourites(): MutableLiveData<List<FavouriteWeather>> {
+        return _favourites
+    }
+
+    fun getRecents(): MutableLiveData<List<WeatherRecent>> {
+        return _recents
     }
 
 
@@ -47,12 +77,31 @@ class SharedViewModel : ViewModel() {
         }
     }
 
-    fun getNewAutoCompleteList(city:String) {
+    fun getNewAutoCompleteList(city: String) {
         viewModelScope.launch {
             val response = Network().getService().getAutoComplete(apiKey, city)
-            if(response.isSuccessful){
+            if (response.isSuccessful) {
                 setAutoCompleteList(response)
             }
+        }
+    }
+
+    fun addCityToFavourites(context: Context) {
+        val newFavourite = getForecast().value?.body()?.let { Utils().weatherToFavourites(it) }
+        viewModelScope.launch {
+            val database = WeatherApiDatabase.getDatabase(context)
+            newFavourite?.let { database?.weatherDao()?.insertFavourite(it) }
+            for (item in database?.weatherDao()?.getAllFavourites()!!) {
+                Log.i("FAVOURITE", item.cityName)
+            }
+        }
+    }
+
+    fun addCityToRecents(context: Context) {
+        val newRecent = getForecast().value?.body()?.let { Utils().weatherToFavourites(it) }
+        viewModelScope.launch {
+            val database = WeatherApiDatabase.getDatabase(context)
+            newRecent?.let { database?.weatherDao()?.insertFavourite(it) }
         }
     }
 
