@@ -147,7 +147,7 @@ data class Hour(
             wind_direction = getWindDirection(res)
             res.getString(R.string.windMetricValue, wind_kph.toInt(), wind_direction)
         } else {
-            res.getString(R.string.windMetricValue, wind_kph, wind_dir)
+            res.getString(R.string.windMetricValue, wind_kph.toInt(), wind_dir)
         }
     }
 

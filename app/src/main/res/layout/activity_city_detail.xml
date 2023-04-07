@@ -33,10 +33,30 @@
                 app:layout_collapseMode="pin"
                 style="@style/HeadlineLargeNLv1Left"
                 android:title="@string/app_name"
-                app:navigationIcon="@drawable/ic_arrow_back"
-                app:menu="@menu/city_detail_menu"
                 android:background="?attr/surface_surface_1"
                 app:popupTheme="@style/Theme.WeatherAppSofaScore.PopupOverlay">
+
+                <ImageView
+                    android:id="@+id/back"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/ic_arrow_back"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/texteneter" />
+
+                <ImageView
+                    android:id="@+id/fav"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/ic_star_outline"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_gravity="end" />
 
 
             </androidx.appcompat.widget.Toolbar>

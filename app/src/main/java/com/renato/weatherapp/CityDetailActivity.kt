@@ -61,7 +61,9 @@ class CityDetailActivity : AppCompatActivity() {
         currentUnits = Preferences(this).getCurrentUnits()
 
 
-        binding.toolbarCity.setNavigationOnClickListener {
+
+
+        binding.back.setOnClickListener {
             finish()
         }
     }

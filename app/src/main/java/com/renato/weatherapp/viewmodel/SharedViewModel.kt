@@ -7,8 +7,11 @@ import androidx.lifecycle.viewModelScope
 import com.renato.weatherapp.data.model.WeatherAutoCompleteResponse
 import com.renato.weatherapp.data.model.WeatherResponseForecast
 import com.renato.weatherapp.data.networking.Network
+import com.renato.weatherapp.data.networking.WeatherService
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import retrofit2.Response
+import javax.inject.Inject
 
 class SharedViewModel : ViewModel() {
 
@@ -16,7 +19,7 @@ class SharedViewModel : ViewModel() {
         MutableLiveData<Response<ArrayList<WeatherAutoCompleteResponse>>>()
     private val _forecast = MutableLiveData<Response<WeatherResponseForecast>>()
 
-    private val apiKey = "b0cdddd07d474c2ba10190718232303"
+    private val apiKey = "6c0c76f140cf4673aaa80504230704"
 
     fun setAutoCompleteList(results: Response<ArrayList<WeatherAutoCompleteResponse>>) {
         _autocompleteList.value = results
