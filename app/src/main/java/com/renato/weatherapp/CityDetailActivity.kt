@@ -1,9 +1,13 @@
 package com.renato.weatherapp
 
+import android.graphics.PorterDuff
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -25,6 +29,7 @@ class CityDetailActivity : AppCompatActivity() {
     private lateinit var city: WeatherResponseForecast
     private lateinit var toolbar: Toolbar
     private lateinit var sharedViewModel: SharedViewModel
+    private var iconFlag = false
 
     private var currentUnits: Boolean = true
 
@@ -104,5 +109,24 @@ class CityDetailActivity : AppCompatActivity() {
     private fun setupMap() {
         val map = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         map?.getMapAsync(callback)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.city_detail_menu, menu)
+
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        if (item.itemId == R.id.menu_item_favourite) {
+            if (!iconFlag) {
+                item.setIcon(R.drawable.ic_star_outline)
+            } else {
+                item.setIcon(R.drawable.ic_star_filled)
+            }
+            iconFlag = !iconFlag
+        }
+        return super.onOptionsItemSelected(item)
     }
 }
