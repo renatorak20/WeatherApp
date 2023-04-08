@@ -40,8 +40,9 @@ class CityListAdapter(
         binding.titleText.text = city.cityName
         binding.imageWeather.load(context.getString(R.string.iconUrl, city.icon))
         val currentTime = city.getCurrentTime().split(" ")
-        binding.firstText.text = "${currentTime[0]} ${currentTime[1]}"
-        binding.secondText.text = currentTime[2]
+        binding.firstText.text =
+            context.getString(R.string.timeText, currentTime[0], currentTime[1])
+        binding.secondText.text = currentTime[2].replace("(", "").replace(")", "")
         binding.tempText.text = city.temperatureC.toString()
 
         binding.favIcon.setOnClickListener {

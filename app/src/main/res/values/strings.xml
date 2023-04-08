@@ -46,6 +46,9 @@
     <string name="calendar_item">Calendar Item</string>
     <string name="edit_item">Edit Item</string>
     <string name="done_item">Done Item</string>
+    <string name="lastUpdated">Last updated: %1$s</string>
+    <string name="notUpdated">Not yet updated!</string>
+    <string name="timeText" translatable="false">%1$s %2$s</string>
 
     <!-- SEARCH FRAGMENT-->
     <string name="search_bar_hint">Search Cities</string>
@@ -85,7 +88,6 @@
 
     <string name="favouritesLastUpdated" translatable="false">FavouritesLastUpdated</string>
     <string name="recentsLastUpdated" translatable="false">RecentsLastUpdated</string>
-    <string name="lastUpdated">Last updated: %1$s</string>
-    <string name="notUpdated">Not yet updated!</string>
+
 
 </resources>

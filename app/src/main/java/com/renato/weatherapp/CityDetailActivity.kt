@@ -1,6 +1,7 @@
 package com.renato.weatherapp
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
@@ -29,7 +30,6 @@ class CityDetailActivity : AppCompatActivity() {
     private lateinit var toolbarItem: MenuItem
     private lateinit var sharedViewModel: SharedViewModel
     private var iconFlag = false
-
     private var currentUnits: Boolean = true
 
     private val callback = OnMapReadyCallback { googleMap ->
@@ -133,10 +133,12 @@ class CityDetailActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
         if (item.itemId == R.id.menu_item_favourite) {
-            if (!iconFlag) {
+            if (iconFlag) {
+                Log.i("PRESSED", "Before was not on")
                 item.setIcon(R.drawable.ic_star_outline)
                 sharedViewModel.removeCityFromFavourites(this, cityToLoad)
             } else {
+                Log.i("PRESSED", "Before was on")
                 item.setIcon(R.drawable.ic_star_filled)
                 sharedViewModel.addCityToFavourites(this)
             }

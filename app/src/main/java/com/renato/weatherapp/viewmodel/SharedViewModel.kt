@@ -99,7 +99,7 @@ class SharedViewModel : ViewModel() {
             _favourites.value?.let { database?.weatherDao()?.updateFavourites(it) }
 
             Preferences(activity).setFavouritesLastUpdated()
-            _recLastUpdated.value = Preferences(activity).getFavouritesLastUpdated()
+            _favLastUpdated.value = Preferences(activity).getFavouritesLastUpdated()
         }
     }
 
