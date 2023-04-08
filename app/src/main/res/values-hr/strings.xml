@@ -62,5 +62,8 @@
     <string name="today">Danas</string>
     <string name="loading">Učitavanje...</string>
 
+    <string name="lastUpdated">Zadnje ažurirano: %1$s</string>
+    <string name="notUpdated">Još nije ažurirano!</string>
+
 
 </resources>

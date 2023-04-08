@@ -37,18 +37,32 @@ class MyCitiesFragment : Fragment() {
         toolbar.menu.findItem(R.id.menu_item_done).isVisible = false
 
         sharedViewModel.getFavouritesFromDb(requireContext())
-        sharedViewModel.getUpdatedFavourites(requireContext())
+        sharedViewModel.getUpdatedFavourites(requireActivity())
 
         sharedViewModel.getFavourites().observe(viewLifecycleOwner) { favourites ->
             binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
             binding.recyclerView.adapter =
-                CityListAdapter(requireContext(), favourites as ArrayList<Any>)
+                CityListAdapter(requireContext(), favourites as ArrayList<Any>, this)
+            binding.swipeRefreshLayout.isRefreshing = false
         }
 
+        sharedViewModel.getFavLastUpdated().observe(viewLifecycleOwner) {
+            binding.lastUpdated.text = sharedViewModel.getFavLastUpdated().value
+        }
 
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            handleRefresh()
+        }
 
         setListeners()
+    }
 
+    fun removeFavouriteCity(city: String) {
+        sharedViewModel.removeCityFromFavourites(requireContext(), city)
+    }
+
+    fun handleRefresh() {
+        sharedViewModel.getUpdatedFavourites(requireActivity())
     }
 
     fun swapIcons() {
@@ -64,7 +78,6 @@ class MyCitiesFragment : Fragment() {
             toolbar.menu.findItem(R.id.menu_item_done).isVisible = false
         }
     }
-
     fun setListeners() {
         binding.toolbar.menu.findItem(R.id.menu_item_edit).setOnMenuItemClickListener {
             swapIcons()

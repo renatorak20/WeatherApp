@@ -6,6 +6,7 @@ import com.renato.weatherapp.data.model.WeatherRecent
 
 @Dao
 interface WeatherDao {
+
     @Query("SELECT * FROM recentsTable")
     suspend fun getAllRecents(): List<WeatherRecent>
 

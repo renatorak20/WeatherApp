@@ -18,6 +18,8 @@ import com.renato.weatherapp.data.model.FavouriteWeather
 import com.renato.weatherapp.data.model.WeatherRecent
 import com.renato.weatherapp.data.model.WeatherResponseForecast
 import com.renato.weatherapp.ui.custom.CityDetailParameter
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class Utils {
 
@@ -171,5 +173,11 @@ class Utils {
         Location.distanceBetween(lat, lon, latLng.latitude, latLng.longitude, results)
         Log.i("RESULTS", results[0].toString())
         return (results[0] * 0.000621371).toInt()
+    }
+
+    fun getCurrentTime(): String {
+        val currentDateTime = LocalDateTime.now()
+        val formatter = DateTimeFormatter.ofPattern("HH:mm dd-MM-yyyy")
+        return currentDateTime.format(formatter)
     }
 }

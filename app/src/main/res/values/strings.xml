@@ -83,4 +83,9 @@
     <!-- CITY MAP ACTIVITY-->
     <string name="title_activity_city_map" translatable="false">CityMapActivity</string>
 
+    <string name="favouritesLastUpdated" translatable="false">FavouritesLastUpdated</string>
+    <string name="recentsLastUpdated" translatable="false">RecentsLastUpdated</string>
+    <string name="lastUpdated">Last updated: %1$s</string>
+    <string name="notUpdated">Not yet updated!</string>
+
 </resources>

@@ -19,6 +19,7 @@ class Preferences(private val activity: Activity) {
         activity.resources.getString(R.string.package_name),
         Context.MODE_PRIVATE
     )
+    private val resources = activity.resources
 
 
     fun swapUnits(){
@@ -67,6 +68,20 @@ class Preferences(private val activity: Activity) {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
         activity.startActivity(intent)
         activity.finish()
+    }
+
+    fun setFavouritesLastUpdated() {
+        preferences.edit().putString(
+            resources.getString(R.string.favouritesLastUpdated),
+            resources.getString(R.string.lastUpdated, Utils().getCurrentTime())
+        ).apply()
+    }
+
+    fun getFavouritesLastUpdated(): String? {
+        return preferences.getString(
+            resources.getString(R.string.favouritesLastUpdated),
+            resources.getString(R.string.notUpdated)
+        )
     }
 
 }

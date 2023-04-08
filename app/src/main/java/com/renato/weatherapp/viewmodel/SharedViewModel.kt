@@ -1,5 +1,6 @@
 package com.renato.weatherapp.viewmodel
 
+import android.app.Activity
 import android.content.Context
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
@@ -11,6 +12,7 @@ import com.renato.weatherapp.data.model.WeatherRecent
 import com.renato.weatherapp.data.model.WeatherResponseForecast
 import com.renato.weatherapp.data.networking.Network
 import com.renato.weatherapp.database.WeatherApiDatabase
+import com.renato.weatherapp.util.Preferences
 import com.renato.weatherapp.util.Utils
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -26,6 +28,9 @@ class SharedViewModel : ViewModel() {
     private val _forecast = MutableLiveData<Response<WeatherResponseForecast>>()
     private val _favourites = MutableLiveData<List<FavouriteWeather>>()
     private val _recents = MutableLiveData<List<WeatherRecent>>()
+    private val _favLastUpdated = MutableLiveData<String>()
+    private val _recLastUpdated = MutableLiveData<String>()
+
 
     private val apiKey = "6c0c76f140cf4673aaa80504230704"
 
@@ -53,15 +58,20 @@ class SharedViewModel : ViewModel() {
         return _recents
     }
 
+    fun getFavLastUpdated(): MutableLiveData<String> {
+        return _favLastUpdated
+    }
+
+    fun getRecLastUpdated(): MutableLiveData<String> {
+        return _recLastUpdated
+    }
+
     fun getFavouritesFromDb(context: Context) {
         viewModelScope.launch {
             val database = WeatherApiDatabase.getDatabase(context)
             val allFavourites = async { database?.weatherDao()?.getAllFavourites() }
             val newValue = allFavourites.await()
             _favourites.value = newValue!!
-            for (city in _favourites.value!!) {
-                Log.i("ITEM", city.cityName)
-            }
         }
     }
 
@@ -73,9 +83,9 @@ class SharedViewModel : ViewModel() {
         }
     }
 
-    fun getUpdatedFavourites(context: Context) {
+    fun getUpdatedFavourites(activity: Activity) {
         viewModelScope.launch {
-            val database = WeatherApiDatabase.getDatabase(context)
+            val database = WeatherApiDatabase.getDatabase(activity.applicationContext)
             val allFavourites = database?.weatherDao()?.getAllFavourites()
             val newFavourites = allFavourites?.map { city ->
                 async {
@@ -86,9 +96,10 @@ class SharedViewModel : ViewModel() {
             _favourites.value =
                 responses?.stream()?.map { city -> Utils().weatherToFavourites(city.body()!!) }
                     ?.toList()
-
-
             _favourites.value?.let { database?.weatherDao()?.updateFavourites(it) }
+
+            Preferences(activity).setFavouritesLastUpdated()
+            _recLastUpdated.value = Preferences(activity).getFavouritesLastUpdated()
         }
     }
 
