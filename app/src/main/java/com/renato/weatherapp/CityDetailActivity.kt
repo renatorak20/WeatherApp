@@ -50,6 +50,7 @@ class CityDetailActivity : AppCompatActivity() {
 
         sharedViewModel = ViewModelProvider(this)[SharedViewModel::class.java]
 
+
         sharedViewModel.getForecast().observe(this) { city ->
             if (city.isSuccessful) {
                 this.city = city.body()!!
@@ -69,11 +70,16 @@ class CityDetailActivity : AppCompatActivity() {
 
         sharedViewModel.getNewForecast(cityToLoad)
 
-
         currentUnits = Preferences(this).getCurrentUnits()
 
         binding.back.setOnClickListener {
             finish()
+        }
+
+        sharedViewModel.getFavourites().observe(this) {
+            if (sharedViewModel.getFavourites().value?.any { it.cityName == cityToLoad } == true) {
+                toolbarItem.setIcon(R.drawable.ic_star_filled)
+            }
         }
     }
 
@@ -118,6 +124,9 @@ class CityDetailActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.city_detail_menu, menu)
         toolbarItem = menu!!.findItem(R.id.menu_item_favourite)
+
+        sharedViewModel.getCurrentFavourites(this)
+
         return true
     }
 
@@ -126,6 +135,7 @@ class CityDetailActivity : AppCompatActivity() {
         if (item.itemId == R.id.menu_item_favourite) {
             if (!iconFlag) {
                 item.setIcon(R.drawable.ic_star_outline)
+                sharedViewModel.removeCityFromFavourites(this, cityToLoad)
             } else {
                 item.setIcon(R.drawable.ic_star_filled)
                 sharedViewModel.addCityToFavourites(this)

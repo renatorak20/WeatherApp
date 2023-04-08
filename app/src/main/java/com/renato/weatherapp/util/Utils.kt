@@ -133,7 +133,7 @@ class Utils {
     fun weatherToFavourites(weather: WeatherResponseForecast): FavouriteWeather {
         val newWeather = FavouriteWeather(
             weather.location.name,
-            weather.location.localtime_epoch,
+            weather.location.localtime,
             weather.location.tz_id,
             weather.current.temp_c.toInt(),
             weather.current.temp_f.toInt(),

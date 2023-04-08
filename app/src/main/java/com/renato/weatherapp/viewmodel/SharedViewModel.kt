@@ -39,7 +39,11 @@ class SharedViewModel : ViewModel() {
         viewModelScope.launch {
             val database = WeatherApiDatabase.getDatabase(context)
             val allFavourites = async { database?.weatherDao()?.getAllFavourites() }
-            _favourites.value = allFavourites.await()
+            val newValue = allFavourites.await()
+            _favourites.value = newValue!!
+            for (city in _favourites.value!!) {
+                Log.i("ITEM", city.cityName)
+            }
         }
     }
 
@@ -60,6 +64,11 @@ class SharedViewModel : ViewModel() {
     }
 
     fun getFavourites(): MutableLiveData<List<FavouriteWeather>> {
+        if (_favourites.value?.isNotEmpty() == true) {
+            for (city in _favourites.value!!) {
+                Log.i("ITEM", city.cityName)
+            }
+        }
         return _favourites
     }
 
@@ -91,7 +100,21 @@ class SharedViewModel : ViewModel() {
         viewModelScope.launch {
             val database = WeatherApiDatabase.getDatabase(context)
             newFavourite?.let { database?.weatherDao()?.insertFavourite(it) }
-            for (item in database?.weatherDao()?.getAllFavourites()!!) {
+            _favourites.value = database?.weatherDao()?.getAllFavourites()
+
+            for (item in _favourites.value!!) {
+                Log.i("FAVOURITE", item.cityName)
+            }
+        }
+    }
+
+    fun removeCityFromFavourites(context: Context, cityName: String) {
+        viewModelScope.launch {
+            val database = WeatherApiDatabase.getDatabase(context)
+            database?.weatherDao()?.deleteFavourite(cityName)
+            _favourites.value = database?.weatherDao()?.getAllFavourites()
+
+            for (item in _favourites.value!!) {
                 Log.i("FAVOURITE", item.cityName)
             }
         }

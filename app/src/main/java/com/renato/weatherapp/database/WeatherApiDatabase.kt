@@ -9,7 +9,7 @@ import com.renato.weatherapp.data.model.WeatherRecent
 
 @Database(
     entities = [FavouriteWeather::class, WeatherRecent::class],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 abstract class WeatherApiDatabase : RoomDatabase() {
@@ -30,7 +30,8 @@ abstract class WeatherApiDatabase : RoomDatabase() {
             context.applicationContext,
             WeatherApiDatabase::class.java,
             "WeatherApiDatabase.db"
-        ).build()
+        ).fallbackToDestructiveMigration()
+            .build()
     }
 
 }
