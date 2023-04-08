@@ -146,6 +146,13 @@ class SharedViewModel : ViewModel() {
         }
     }
 
+    fun removeAllCitiesFromFavourites(context: Context) {
+        viewModelScope.launch {
+            val database = WeatherApiDatabase.getDatabase(context)
+            database?.weatherDao()?.nukeFavourites()
+        }
+    }
+
     fun addCityToRecents(context: Context) {
         val newRecent = getForecast().value?.body()?.let { Utils().weatherToFavourites(it) }
         viewModelScope.launch {

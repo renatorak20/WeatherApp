@@ -12,18 +12,21 @@ import android.widget.AdapterView.OnItemClickListener
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.renato.weatherapp.AboutActivity
 import com.renato.weatherapp.R
 import com.renato.weatherapp.databinding.FragmentSettingsBinding
 import com.renato.weatherapp.util.Preferences
+import com.renato.weatherapp.viewmodel.SharedViewModel
 
 
 class SettingsFragment : Fragment() {
 
     private lateinit var binding: FragmentSettingsBinding
     private lateinit var preferences: SharedPreferences
-    private lateinit var extrasUnit:List<String>
+    private lateinit var sharedViewModel: SharedViewModel
+    private lateinit var extrasUnit: List<String>
     private lateinit var extrasLang:Array<String>
 
     override fun onCreateView(
@@ -31,14 +34,23 @@ class SettingsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        preferences = requireActivity().getSharedPreferences(resources.getString(R.string.package_name), Context.MODE_PRIVATE)
+        sharedViewModel = ViewModelProvider(requireActivity())[SharedViewModel::class.java]
+
+        preferences = requireActivity().getSharedPreferences(
+            resources.getString(R.string.package_name),
+            Context.MODE_PRIVATE
+        )
 
         extrasUnit = resources.getStringArray(R.array.units).toList()
         extrasLang = resources.getStringArray(R.array.languages)
 
         binding = FragmentSettingsBinding.inflate(layoutInflater)
 
-        val adapter = ArrayAdapter(requireContext(), R.layout.spinner_item, listOf(getString(R.string.english), getString(R.string.croatian)))
+        val adapter = ArrayAdapter(
+            requireContext(),
+            R.layout.spinner_item,
+            listOf(getString(R.string.english), getString(R.string.croatian))
+        )
         (binding.languageSelector as? MaterialAutoCompleteTextView)?.setAdapter(adapter)
 
         return binding.root
@@ -58,10 +70,14 @@ class SettingsFragment : Fragment() {
         }
 
         binding.languageSelector.setOnItemClickListener { _, _, pos, _ ->
-            when(pos){
+            when (pos) {
                 0 -> Preferences(requireActivity()).setLanguage(extrasLang[1])
                 else -> Preferences(requireActivity()).setLanguage(extrasLang[2])
             }
+        }
+
+        binding.clearMyCities.setOnClickListener {
+            sharedViewModel.removeAllCitiesFromFavourites(requireContext())
         }
 
     }

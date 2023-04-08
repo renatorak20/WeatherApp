@@ -10,7 +10,7 @@ import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import kotlin.math.abs
 
-@Entity(tableName = "favourite_weather_table")
+@Entity(tableName = "favouritesTable")
 data class FavouriteWeather(
     @PrimaryKey
     @ColumnInfo(name = "city_name")

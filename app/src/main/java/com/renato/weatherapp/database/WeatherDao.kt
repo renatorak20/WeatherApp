@@ -10,13 +10,13 @@ interface WeatherDao {
     @Query("SELECT * FROM recentsTable")
     suspend fun getAllRecents(): List<WeatherRecent>
 
-    @Query("SELECT * FROM favourite_weather_table")
+    @Query("SELECT * FROM favouritesTable")
     suspend fun getAllFavourites(): List<FavouriteWeather>
 
     @Query("SELECT * FROM recentsTable WHERE city_name = :cityName")
     suspend fun getRecentWeatherByCityName(cityName: String): List<WeatherRecent>
 
-    @Query("SELECT * FROM favourite_weather_table WHERE city_name = :cityName")
+    @Query("SELECT * FROM favouritesTable WHERE city_name = :cityName")
     suspend fun getFavouriteWeatherByCityName(cityName: String): List<FavouriteWeather>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -25,7 +25,7 @@ interface WeatherDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertFavourite(favourite: FavouriteWeather)
 
-    @Query("DELETE FROM favourite_weather_table WHERE city_name = :cityName")
+    @Query("DELETE FROM favouritesTable WHERE city_name = :cityName")
     suspend fun deleteFavourite(cityName: String)
 
     @Query("DELETE FROM recentsTable WHERE city_name = :cityName")
@@ -34,7 +34,7 @@ interface WeatherDao {
     @Query("DELETE FROM recentsTable")
     suspend fun nukeRecents()
 
-    @Query("DELETE FROM favourite_weather_table")
+    @Query("DELETE FROM favouritesTable")
     suspend fun nukeFavourites()
 
     @Update
