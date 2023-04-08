@@ -6,11 +6,8 @@ import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.renato.weatherapp.R
-import com.renato.weatherapp.adapters.CityForecastAdapter
 import com.renato.weatherapp.adapters.CityListAdapter
-import com.renato.weatherapp.database.WeatherApiDatabase
 import com.renato.weatherapp.databinding.FragmentMyCitiesBinding
 import com.renato.weatherapp.viewmodel.SharedViewModel
 
@@ -39,7 +36,8 @@ class MyCitiesFragment : Fragment() {
         toolbar = binding.toolbar
         toolbar.menu.findItem(R.id.menu_item_done).isVisible = false
 
-        sharedViewModel.getCurrentFavourites(requireContext())
+        sharedViewModel.getFavouritesFromDb(requireContext())
+        sharedViewModel.getUpdatedFavourites(requireContext())
 
         sharedViewModel.getFavourites().observe(viewLifecycleOwner) { favourites ->
             binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())

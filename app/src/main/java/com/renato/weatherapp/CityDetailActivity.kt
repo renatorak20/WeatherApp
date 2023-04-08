@@ -125,7 +125,7 @@ class CityDetailActivity : AppCompatActivity() {
         menuInflater.inflate(R.menu.city_detail_menu, menu)
         toolbarItem = menu!!.findItem(R.id.menu_item_favourite)
 
-        sharedViewModel.getCurrentFavourites(this)
+        sharedViewModel.getFavouritesFromDb(this)
 
         return true
     }

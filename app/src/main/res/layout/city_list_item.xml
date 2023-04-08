@@ -3,90 +3,102 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="120dp"
-    android:background="@drawable/rounded_shape">
+    android:layout_height="150dp">
 
-    <TextView
-        android:id="@+id/titleText"
-        style="@style/HeadlineMediumNLv1Left"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="14dp"
-        android:textColor="?attr/neutrals_n_lv_1"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="@id/barrier"
-        tools:text="San Francisco" />
-
-    <TextView
-        android:id="@+id/firstText"
-        style="@style/BodyMediumNLv2Left"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="14dp"
-        android:textColor="?attr/neutrals_n_lv_2"
-        app:layout_constraintBottom_toTopOf="@+id/secondText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titleText"
-        tools:text="37°47′N, 122°25′W" />
-
-    <TextView
-        android:id="@+id/secondText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="4dp"
-        android:textColor="?attr/neutrals_n_lv_2"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:text="Distance: 8542km" />
-
-    <ImageView
-        android:id="@+id/fav_icon"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:src="@drawable/ic_star_outline"
-        app:iconTint="?attr/colorSecondary"
-        app:layout_constraintBottom_toTopOf="@+id/imageWeather"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <TextView
-        android:id="@+id/tempText"
-        style="@style/DisplayLargeNLv1Right"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="?attr/neutrals_n_lv_1"
-        android:layout_marginEnd="4dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/imageWeather"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.951"
-        tools:text="23°" />
-
-    <ImageView
-        android:id="@+id/imageWeather"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginBottom="4dp"
-        android:layout_marginEnd="16dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_margin="5dp"
+        android:background="@drawable/rounded_shape">
 
-    <androidx.constraintlayout.widget.Barrier
-        android:id="@+id/barrier"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:barrierDirection="left"
-        app:constraint_referenced_ids="secondText,firstText"
-        tools:layout_editor_absoluteX="403dp"
-        tools:layout_editor_absoluteY="8dp" />
+        <TextView
+            android:id="@+id/titleText"
+            style="@style/HeadlineMediumNLv1Left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textColor="?attr/neutrals_n_lv_1"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="@id/barrier"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="San Francisco" />
 
+        <TextView
+            android:id="@+id/firstText"
+            style="@style/BodyMediumNLv2Left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="28dp"
+            android:textColor="?attr/neutrals_n_lv_2"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@+id/secondText"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/titleText"
+            tools:text="37°47′N, 122°25′W" />
+
+        <TextView
+            android:id="@+id/secondText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="20dp"
+            android:textColor="?attr/neutrals_n_lv_2"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="Distance: 8542km" />
+
+        <ImageView
+            android:id="@+id/fav_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/ic_star_outline"
+            app:iconTint="?attr/colorSecondary"
+            app:layout_constraintBottom_toTopOf="@+id/imageWeather"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/tempText"
+            style="@style/DisplayLargeNLv1Right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:layout_marginBottom="20dp"
+            android:textColor="?attr/neutrals_n_lv_1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/imageWeather"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.951"
+            tools:text="23°" />
+
+        <ImageView
+            android:id="@+id/imageWeather"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            app:barrierDirection="left"
+            app:constraint_referenced_ids="secondText,firstText" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

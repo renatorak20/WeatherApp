@@ -35,4 +35,7 @@ interface WeatherDao {
 
     @Query("DELETE FROM favourite_weather_table")
     suspend fun nukeFavourites()
+
+    @Update
+    suspend fun updateFavourites(favs: List<FavouriteWeather>)
 }
