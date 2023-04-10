@@ -8,15 +8,11 @@ import androidx.room.PrimaryKey
 data class WeatherRecent(
     @PrimaryKey
     @ColumnInfo(name = "city_name")
-    val cityname: String,
+    val cityName: String,
     @ColumnInfo(name = "latitude")
     val latitude: Double,
     @ColumnInfo(name = "longitude")
     val longitude: Double,
-    @ColumnInfo(name = "distance_km")
-    val distance_km: Int,
-    @ColumnInfo(name = "distance_mil")
-    val distance_mil: Int,
     @ColumnInfo(name = "temperature_c")
     val temperature_c: Int,
     @ColumnInfo(name = "temeperature_f")

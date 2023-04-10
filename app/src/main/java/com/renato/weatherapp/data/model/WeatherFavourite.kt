@@ -11,7 +11,7 @@ import java.time.format.DateTimeFormatter
 import kotlin.math.abs
 
 @Entity(tableName = "favouritesTable")
-data class FavouriteWeather(
+data class WeatherFavourite(
     @PrimaryKey
     @ColumnInfo(name = "city_name")
     val cityName: String,

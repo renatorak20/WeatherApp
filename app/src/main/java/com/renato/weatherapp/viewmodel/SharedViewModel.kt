@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.renato.weatherapp.data.model.WeatherAutoCompleteResponse
-import com.renato.weatherapp.data.model.FavouriteWeather
+import com.renato.weatherapp.data.model.WeatherFavourite
 import com.renato.weatherapp.data.model.WeatherRecent
 import com.renato.weatherapp.data.model.WeatherResponseForecast
 import com.renato.weatherapp.data.networking.Network
@@ -26,7 +26,7 @@ class SharedViewModel : ViewModel() {
     private val _autocompleteList =
         MutableLiveData<Response<ArrayList<WeatherAutoCompleteResponse>>>()
     private val _forecast = MutableLiveData<Response<WeatherResponseForecast>>()
-    private val _favourites = MutableLiveData<List<FavouriteWeather>>()
+    private val _favourites = MutableLiveData<List<WeatherFavourite>>()
     private val _recents = MutableLiveData<List<WeatherRecent>>()
     private val _favLastUpdated = MutableLiveData<String>()
     private val _recLastUpdated = MutableLiveData<String>()
@@ -50,7 +50,7 @@ class SharedViewModel : ViewModel() {
         return _forecast
     }
 
-    fun getFavourites(): MutableLiveData<List<FavouriteWeather>> {
+    fun getFavourites(): MutableLiveData<List<WeatherFavourite>> {
         return _favourites
     }
 
@@ -121,13 +121,17 @@ class SharedViewModel : ViewModel() {
         }
     }
 
-    fun addCityToFavourites(context: Context) {
-        val newFavourite = getForecast().value?.body()?.let { Utils().weatherToFavourites(it) }
+    fun addCityToFavourites(context: Context, cityName: String) {
         viewModelScope.launch {
-            val database = WeatherApiDatabase.getDatabase(context)
-            newFavourite?.let { database?.weatherDao()?.insertFavourite(it) }
-            _favourites.value = database?.weatherDao()?.getAllFavourites()
+            val cityToAdd =
+                async {
+                    Network().getService().getForecast(apiKey, cityName, 1)
+                }
 
+            val response = cityToAdd.await()
+            val database = WeatherApiDatabase.getDatabase(context)
+            database?.weatherDao()?.insertFavourite(Utils().weatherToFavourites(response.body()!!))
+            _favourites.value = database?.weatherDao()?.getAllFavourites()
             for (item in _favourites.value!!) {
                 Log.i("FAVOURITE", item.cityName)
             }
@@ -154,11 +158,33 @@ class SharedViewModel : ViewModel() {
     }
 
     fun addCityToRecents(context: Context) {
-        val newRecent = getForecast().value?.body()?.let { Utils().weatherToFavourites(it) }
+
+        val newRecent = getForecast().value?.body()?.let {
+            Utils().weatherToRecent(it)
+        }
+
+        viewModelScope.launch {
+            val databaseDao = WeatherApiDatabase.getDatabase(context)?.weatherDao()
+            val recentsSize = databaseDao?.getAllRecents()?.size
+
+            if (recentsSize == 5) {
+                databaseDao.deleteRecent(databaseDao.getAllRecents()[0].cityName)
+            }
+
+            newRecent?.let { databaseDao?.insertRecent(it) }
+            _recents.value = databaseDao?.getAllRecents()
+        }
+    }
+
+    fun removeAllCitiesFromRecents(context: Context) {
         viewModelScope.launch {
             val database = WeatherApiDatabase.getDatabase(context)
-            newRecent?.let { database?.weatherDao()?.insertFavourite(it) }
+            database?.weatherDao()?.nukeRecents()
         }
+    }
+
+    fun getFavouritesNames(): List<String>? {
+        return _favourites.value?.map { city -> city.cityName }?.toList()
     }
 
 }

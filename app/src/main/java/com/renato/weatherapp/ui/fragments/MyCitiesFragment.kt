@@ -9,7 +9,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.renato.weatherapp.R
 import com.renato.weatherapp.adapters.CityListAdapter
 import com.renato.weatherapp.databinding.FragmentMyCitiesBinding
+import com.renato.weatherapp.util.Preferences
 import com.renato.weatherapp.viewmodel.SharedViewModel
+import kotlin.collections.ArrayList
 
 
 class MyCitiesFragment : Fragment() {
@@ -39,11 +41,17 @@ class MyCitiesFragment : Fragment() {
         sharedViewModel.getFavouritesFromDb(requireContext())
         sharedViewModel.getUpdatedFavourites(requireActivity())
 
+
         sharedViewModel.getFavourites().observe(viewLifecycleOwner) { favourites ->
             binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-            binding.recyclerView.adapter =
-                CityListAdapter(requireContext(), favourites as ArrayList<Any>, this)
+            val adapter = CityListAdapter(
+                requireContext(),
+                favourites as ArrayList<Any>,
+                sharedViewModel,
+                Preferences(requireActivity()).getCurrentUnits()
+            )
             binding.swipeRefreshLayout.isRefreshing = false
+            binding.recyclerView.adapter = adapter
         }
 
         sharedViewModel.getFavLastUpdated().observe(viewLifecycleOwner) {
@@ -88,4 +96,5 @@ class MyCitiesFragment : Fragment() {
             return@setOnMenuItemClickListener false
         }
     }
+
 }

@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.os.IBinder
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -15,10 +16,13 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.renato.weatherapp.CityDetailActivity
 import com.renato.weatherapp.R
+import com.renato.weatherapp.adapters.CityListAdapter
 import com.renato.weatherapp.databinding.FragmentSearchBinding
+import com.renato.weatherapp.util.Preferences
 import com.renato.weatherapp.util.Utils
 import com.renato.weatherapp.viewmodel.SharedViewModel
 
@@ -58,6 +62,11 @@ class SearchFragment : Fragment() {
                 Utils().showErrorDialog(requireContext())
             }
         }
+        sharedViewModel.getRecentsFromDb(requireContext())
+
+        sharedViewModel.getRecents().observe(viewLifecycleOwner) { recents ->
+            updateRecentsRecyclerView(recents)
+        }
 
         binding.clearIcon.setOnClickListener {
             binding.autoCompleteCity.clear()
@@ -92,6 +101,17 @@ class SearchFragment : Fragment() {
                 }
             }
         })
+    }
+
+    override fun onStart() {
+        super.onStart()
+        binding.autoCompleteCity.setText("")
+        sharedViewModel.getRecentsFromDb(requireContext())
+        sharedViewModel.getFavouritesFromDb(requireContext())
+
+        sharedViewModel.getRecents().observe(viewLifecycleOwner) {
+            updateRecentsRecyclerView(it)
+        }
     }
 
     fun checkForInternet(): Boolean {
@@ -130,6 +150,17 @@ class SearchFragment : Fragment() {
                 binding.autoCompleteCity.text.toString()
             ).addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
         )
+    }
+
+    private fun updateRecentsRecyclerView(recents: List<Any>) {
+        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        val adapter = CityListAdapter(
+            requireContext(),
+            recents as ArrayList<Any>,
+            sharedViewModel,
+            Preferences(requireActivity()).getCurrentUnits()
+        )
+        binding.recyclerView.adapter = adapter
     }
 
 }

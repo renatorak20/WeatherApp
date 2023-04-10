@@ -59,6 +59,10 @@
     <string name="ok">OK</string>
     <string name="error">Error</string>
     <string name="httpError">Oops! No forecast for you now, try again later!</string>
+    <string name="recents">Recent</string>
+
+    <!--RECENTS FRAGMENT-->
+    <string name="dms" translatable="false">%1$s, %2$s</string>
 
     <!-- CITY DETAIL ACTIVITY-->
     <string name="favourite_item">Favourite Item</string>
@@ -88,6 +92,7 @@
 
     <string name="favouritesLastUpdated" translatable="false">FavouritesLastUpdated</string>
     <string name="recentsLastUpdated" translatable="false">RecentsLastUpdated</string>
+    <string name="myCity" translatable="false">MyCity</string>
 
 
 </resources>

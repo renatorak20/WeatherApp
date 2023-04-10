@@ -84,4 +84,12 @@ class Preferences(private val activity: Activity) {
         )
     }
 
+    fun setMyCity(cityName: String) {
+        preferences.edit().putString(resources.getString(R.string.myCity), cityName).apply()
+    }
+
+    fun getMyCity(): String {
+        return preferences.getString(resources.getString(R.string.myCity), "London")!!
+    }
+
 }

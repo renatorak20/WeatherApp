@@ -80,6 +80,7 @@
             android:textColorHint="@color/color_secondary">
 
             <AutoCompleteTextView
+                android:id="@+id/citySelector"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:inputType="none"

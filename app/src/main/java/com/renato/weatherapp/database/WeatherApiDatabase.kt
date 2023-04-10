@@ -4,12 +4,12 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.renato.weatherapp.data.model.FavouriteWeather
+import com.renato.weatherapp.data.model.WeatherFavourite
 import com.renato.weatherapp.data.model.WeatherRecent
 
 @Database(
-    entities = [FavouriteWeather::class, WeatherRecent::class],
-    version = 3,
+    entities = [WeatherFavourite::class, WeatherRecent::class],
+    version = 4,
     exportSchema = false
 )
 abstract class WeatherApiDatabase : RoomDatabase() {

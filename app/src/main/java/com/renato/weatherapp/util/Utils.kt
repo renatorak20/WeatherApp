@@ -14,7 +14,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.renato.weatherapp.R
 import com.renato.weatherapp.data.model.Hour
-import com.renato.weatherapp.data.model.FavouriteWeather
+import com.renato.weatherapp.data.model.WeatherFavourite
 import com.renato.weatherapp.data.model.WeatherRecent
 import com.renato.weatherapp.data.model.WeatherResponseForecast
 import com.renato.weatherapp.ui.custom.CityDetailParameter
@@ -132,8 +132,8 @@ class Utils {
         imageView.load(activity.resources.getString(R.string.iconUrl, city.current.condition.icon))
     }
 
-    fun weatherToFavourites(weather: WeatherResponseForecast): FavouriteWeather {
-        val newWeather = FavouriteWeather(
+    fun weatherToFavourites(weather: WeatherResponseForecast): WeatherFavourite {
+        val newWeather = WeatherFavourite(
             weather.location.name,
             weather.location.localtime,
             weather.location.tz_id,
@@ -144,16 +144,11 @@ class Utils {
         return newWeather
     }
 
-    fun weatherToRecent(weather: WeatherResponseForecast, activity: Activity): WeatherRecent {
-
-        val preferedLatLng = Preferences(activity).getPreferedLatLng()
-
+    fun weatherToRecent(weather: WeatherResponseForecast): WeatherRecent {
         val newWeather = WeatherRecent(
             weather.location.name,
             weather.location.lat,
             weather.location.lon,
-            getDistanceKm(weather.location.lat, weather.location.lon, preferedLatLng),
-            getDistanceMil(weather.location.lat, weather.location.lon, preferedLatLng),
             weather.current.temp_c.toInt(),
             weather.current.temp_f.toInt(),
             weather.current.condition.icon
@@ -177,7 +172,23 @@ class Utils {
 
     fun getCurrentTime(): String {
         val currentDateTime = LocalDateTime.now()
-        val formatter = DateTimeFormatter.ofPattern("HH:mm:ss dd-MM-yyyy")
+        val formatter = DateTimeFormatter.ofPattern("HH:mm:ss dd.MM.yyyy")
         return currentDateTime.format(formatter)
     }
+
+    fun convertToDMS(latitude: Double, longitude: Double): Pair<String, String> {
+        val latDegree = latitude.toInt()
+        val latMinute = ((latitude - latDegree) * 60).toInt()
+        val latSecond = (((latitude - latDegree) * 60) - latMinute) * 60
+        val latDirection = if (latitude > 0) "N" else "S"
+        val lonDegree = longitude.toInt()
+        val lonMinute = ((longitude - lonDegree) * 60).toInt()
+        val lonSecond = (((longitude - lonDegree) * 60) - lonMinute) * 60
+        val lonDirection = if (longitude > 0) "E" else "W"
+        return Pair(
+            "$latDegree°$latMinute′${String.format("%.2f", latSecond)}″$latDirection",
+            "$lonDegree°$lonMinute′${String.format("%.2f", lonSecond)}″$lonDirection"
+        )
+    }
+
 }

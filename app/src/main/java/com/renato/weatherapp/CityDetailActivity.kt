@@ -50,7 +50,6 @@ class CityDetailActivity : AppCompatActivity() {
 
         sharedViewModel = ViewModelProvider(this)[SharedViewModel::class.java]
 
-
         sharedViewModel.getForecast().observe(this) { city ->
             if (city.isSuccessful) {
                 this.city = city.body()!!
@@ -58,13 +57,16 @@ class CityDetailActivity : AppCompatActivity() {
             } else {
                 Utils().showErrorDialog(this)
             }
+            sharedViewModel.addCityToRecents(this)
         }
 
         sharedViewModel.getFavourites().observe(this) { cities ->
-            if (cities.map { it.cityName }.toList().contains(cityToLoad)) {
+            iconFlag = if (cities.map { it.cityName }.toList().contains(cityToLoad)) {
                 toolbarItem.setIcon(R.drawable.ic_star_filled)
+                true
             } else {
                 toolbarItem.setIcon(R.drawable.ic_star_outline)
+                false
             }
         }
 
@@ -76,11 +78,6 @@ class CityDetailActivity : AppCompatActivity() {
             finish()
         }
 
-        sharedViewModel.getFavourites().observe(this) {
-            if (sharedViewModel.getFavourites().value?.any { it.cityName == cityToLoad } == true) {
-                toolbarItem.setIcon(R.drawable.ic_star_filled)
-            }
-        }
     }
 
     private fun setValues() {
@@ -134,13 +131,11 @@ class CityDetailActivity : AppCompatActivity() {
 
         if (item.itemId == R.id.menu_item_favourite) {
             if (iconFlag) {
-                Log.i("PRESSED", "Before was not on")
                 item.setIcon(R.drawable.ic_star_outline)
                 sharedViewModel.removeCityFromFavourites(this, cityToLoad)
             } else {
-                Log.i("PRESSED", "Before was on")
                 item.setIcon(R.drawable.ic_star_filled)
-                sharedViewModel.addCityToFavourites(this)
+                sharedViewModel.addCityToFavourites(this, city.location.name)
             }
             iconFlag = !iconFlag
         }
