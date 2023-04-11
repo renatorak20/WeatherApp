@@ -39,4 +39,7 @@ interface WeatherDao {
 
     @Update
     suspend fun updateFavourites(favs: List<WeatherFavourite>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(cities: List<WeatherFavourite>)
 }

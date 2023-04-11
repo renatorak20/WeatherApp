@@ -5,9 +5,12 @@ import android.view.*
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.renato.weatherapp.R
 import com.renato.weatherapp.adapters.CityListAdapter
+import com.renato.weatherapp.adapters.ItemTouchCallback
 import com.renato.weatherapp.databinding.FragmentMyCitiesBinding
 import com.renato.weatherapp.util.Preferences
 import com.renato.weatherapp.viewmodel.SharedViewModel
@@ -20,6 +23,7 @@ class MyCitiesFragment : Fragment() {
     private var isEditable = false
     private lateinit var toolbar: Toolbar
     private lateinit var sharedViewModel: SharedViewModel
+    private lateinit var itemTouchHelper: ItemTouchHelper
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,6 +45,9 @@ class MyCitiesFragment : Fragment() {
         sharedViewModel.getFavouritesFromDb(requireContext())
         sharedViewModel.getUpdatedFavourites(requireActivity())
 
+        val itemTouchCallback = ItemTouchCallback(binding.recyclerView)
+        itemTouchHelper = ItemTouchHelper(itemTouchCallback)
+        itemTouchHelper.attachToRecyclerView(binding.recyclerView)
 
         sharedViewModel.getFavourites().observe(viewLifecycleOwner) { favourites ->
             binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -62,11 +69,9 @@ class MyCitiesFragment : Fragment() {
             handleRefresh()
         }
 
-        setListeners()
-    }
 
-    fun removeFavouriteCity(city: String) {
-        sharedViewModel.removeCityFromFavourites(requireContext(), city)
+
+        setListeners()
     }
 
     fun handleRefresh() {
@@ -96,5 +101,4 @@ class MyCitiesFragment : Fragment() {
             return@setOnMenuItemClickListener false
         }
     }
-
 }

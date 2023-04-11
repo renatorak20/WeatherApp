@@ -3,7 +3,9 @@ package com.renato.weatherapp.adapters
 import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
+import android.view.View.OnTouchListener
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
@@ -50,7 +52,8 @@ class CityListAdapter(
                 binding.firstText.text =
                     context.getString(R.string.timeText, currentTime[0], currentTime[1])
                 binding.secondText.text = currentTime[2].replace("(", "").replace(")", "")
-                binding.tempText.text = city.temperatureC.toString()
+                binding.tempText.text =
+                    context.getString(R.string.temperatureMetricValue, city.temperatureC)
 
                 binding.favIcon.setOnClickListener {
                     changeFavouriteStatus(city.cityName, true, binding.favIcon)
@@ -73,8 +76,11 @@ class CityListAdapter(
 
                 val dms = Utils().convertToDMS(city.latitude, city.longitude)
                 binding.firstText.text = context.getString(R.string.dms, dms.first, dms.second)
+                binding.secondText.text = ""
 
-                binding.secondText.text = "0"
+
+                binding.tempText.text =
+                    context.getString(R.string.temperatureMetricValue, city.temperature_c)
 
                 binding.favIcon.setOnClickListener {
                     changeFavouriteStatus(city.cityName, isFavourite, binding.favIcon)
@@ -99,5 +105,12 @@ class CityListAdapter(
     private fun removeItemFromPosition(position: Int) {
         array.removeAt(position)
         notifyItemRemoved(position)
+    }
+
+    fun moveItem(fromPosition: Int, toPosition: Int) {
+        val item = array.removeAt(fromPosition)
+        array.add(toPosition, item)
+
+        viewModel.updateCitiesInFravourites(context, array as List<WeatherFavourite>)
     }
 }

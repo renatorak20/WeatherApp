@@ -17,7 +17,6 @@ import com.renato.weatherapp.util.Utils
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
-import okhttp3.internal.wait
 import retrofit2.Response
 import kotlin.streams.toList
 
@@ -147,6 +146,14 @@ class SharedViewModel : ViewModel() {
             for (item in _favourites.value!!) {
                 Log.i("FAVOURITE", item.cityName)
             }
+        }
+    }
+
+    fun updateCitiesInFravourites(context: Context, cities: List<WeatherFavourite>) {
+        viewModelScope.launch {
+            val database = WeatherApiDatabase.getDatabase(context)
+            database?.weatherDao()?.nukeFavourites()
+            database?.weatherDao()?.insertAll(cities)
         }
     }
 

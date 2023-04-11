@@ -93,6 +93,9 @@
     <string name="favouritesLastUpdated" translatable="false">FavouritesLastUpdated</string>
     <string name="recentsLastUpdated" translatable="false">RecentsLastUpdated</string>
     <string name="myCity" translatable="false">MyCity</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+    <string name="app_widget_description">This is an app widget description</string>
 
 
 </resources>
