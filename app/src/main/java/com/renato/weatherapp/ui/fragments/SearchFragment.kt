@@ -19,7 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.renato.weatherapp.CityDetailActivity
 import com.renato.weatherapp.R
-import com.renato.weatherapp.adapters.CityRecentsAdapter
+import com.renato.weatherapp.adapters.CityListAdapter
 import com.renato.weatherapp.data.model.WeatherRecent
 import com.renato.weatherapp.databinding.FragmentSearchBinding
 import com.renato.weatherapp.util.Preferences
@@ -154,9 +154,9 @@ class SearchFragment : Fragment() {
 
     private fun updateRecentsRecyclerView(recents: List<WeatherRecent>) {
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        val adapter = CityRecentsAdapter(
+        val adapter = CityListAdapter(
             requireContext(),
-            recents as ArrayList<WeatherRecent>,
+            recents as ArrayList<Any>,
             sharedViewModel,
             Preferences(requireActivity()).getCurrentUnits()
         )

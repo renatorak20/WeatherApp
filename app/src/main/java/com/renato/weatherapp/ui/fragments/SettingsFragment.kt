@@ -3,18 +3,20 @@ package com.renato.weatherapp.ui.fragments
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.renato.weatherapp.AboutActivity
 import com.renato.weatherapp.R
-import com.renato.weatherapp.database.WeatherApiDatabase
 import com.renato.weatherapp.databinding.FragmentSettingsBinding
 import com.renato.weatherapp.util.Preferences
 import com.renato.weatherapp.viewmodel.SharedViewModel
@@ -26,7 +28,7 @@ class SettingsFragment : Fragment() {
     private lateinit var preferences: SharedPreferences
     private lateinit var sharedViewModel: SharedViewModel
     private lateinit var extrasUnit: List<String>
-    private lateinit var extrasLang:Array<String>
+    private lateinit var extrasLang: Array<String>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -80,7 +82,7 @@ class SettingsFragment : Fragment() {
         }
 
         binding.clearRecentSearch.setOnClickListener {
-            sharedViewModel.removeAllCitiesFromRecents(requireContext())
+            showClearRecentDialog()
         }
 
     }
@@ -104,7 +106,7 @@ class SettingsFragment : Fragment() {
                 )
                 (binding.citySelector as? MaterialAutoCompleteTextView)?.setAdapter(myCityAdapter)
 
-                loadAppPreferenes()
+                //loadAppPreferenes()
 
             }
         }
@@ -124,5 +126,32 @@ class SettingsFragment : Fragment() {
         val myCityIndex = sharedViewModel.getFavouritesNames()
             ?.indexOf(Preferences(requireActivity()).getMyCity())
         myCityIndex?.let { binding.citySelector.setSelection(it) }
+    }
+
+    private fun showClearRecentDialog() {
+
+        MaterialAlertDialogBuilder(requireContext(), R.style.AlertDialogTheme)
+            .setTitle(resources.getString(R.string.clear_recent_title))
+            .setMessage(resources.getString(R.string.clear_recent_desc))
+            .setNegativeButton(resources.getString(R.string.cancel_cap)) { dialogInterface, i ->
+
+            }
+            .setPositiveButton(resources.getString(R.string.clear_cap)) { dialogInterface, i ->
+                sharedViewModel.removeAllCitiesFromRecents(requireContext())
+
+                val snackbar = Snackbar.make(requireView(), "", Snackbar.LENGTH_SHORT)
+                val customSnackView =
+                    layoutInflater.inflate(R.layout.recents_deleted_snackbar, null)
+                snackbar.view.setBackgroundColor(Color.TRANSPARENT)
+                val snackbarLayout = snackbar.view as Snackbar.SnackbarLayout
+                snackbarLayout.setPadding(0, 0, 0, 0)
+                snackbarLayout.addView(customSnackView, 0)
+                snackbar.anchorView = requireActivity().findViewById(R.id.nav_view)
+                snackbar.view.findViewById<ImageView>(R.id.snackbar_dismiss).setOnClickListener {
+                    snackbar.dismiss()
+                }
+                snackbar.show()
+            }
+            .show()
     }
 }

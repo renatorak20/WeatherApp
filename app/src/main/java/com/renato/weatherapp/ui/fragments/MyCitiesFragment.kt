@@ -9,9 +9,8 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.renato.weatherapp.R
-import com.renato.weatherapp.adapters.CityFavouritesAdapter
+import com.renato.weatherapp.adapters.CityListAdapter
 import com.renato.weatherapp.adapters.ItemTouchCallback
-import com.renato.weatherapp.data.model.WeatherFavourite
 import com.renato.weatherapp.databinding.FragmentMyCitiesBinding
 import com.renato.weatherapp.util.Preferences
 import com.renato.weatherapp.util.Utils
@@ -26,7 +25,7 @@ class MyCitiesFragment : Fragment() {
     private lateinit var toolbar: Toolbar
     private lateinit var sharedViewModel: SharedViewModel
     private lateinit var itemTouchHelper: ItemTouchHelper
-    private lateinit var recyclerAdapter: CityFavouritesAdapter
+    private lateinit var recyclerAdapter: CityListAdapter
     private lateinit var itemTouchCallback: ItemTouchCallback
 
     override fun onCreateView(
@@ -57,9 +56,9 @@ class MyCitiesFragment : Fragment() {
 
         sharedViewModel.getFavourites().observe(viewLifecycleOwner) { favourites ->
             binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-            recyclerAdapter = CityFavouritesAdapter(
+            recyclerAdapter = CityListAdapter(
                 requireContext(),
-                favourites as ArrayList<WeatherFavourite>,
+                favourites as ArrayList<Any>,
                 sharedViewModel,
                 Preferences(requireActivity()).getCurrentUnits()
             )

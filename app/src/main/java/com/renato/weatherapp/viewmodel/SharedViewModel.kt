@@ -188,7 +188,7 @@ class SharedViewModel : ViewModel() {
     fun removeAllCitiesFromRecents(context: Context) {
         viewModelScope.launch {
             val database = WeatherApiDatabase.getDatabase(context)
-            database?.weatherDao()?.nukeRecents()
+            val response = database?.weatherDao()?.nukeRecents()
         }
     }
 

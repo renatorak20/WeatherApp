@@ -40,6 +40,11 @@
     <string name="clearRecentSearchList">CLEAR RECENT SEARCH LIST</string>
     <string name="croatian">Croatian</string>
     <string name="english">English</string>
+    <string name="clear_recent_title">Clear recent search list?</string>
+    <string name="clear_recent_desc">If you clear your recent search list, your home screen will be empty.</string>
+    <string name="clear_cap">CLEAR</string>
+    <string name="cancel_cap">CANCEL</string>
+    <string name="clear_recent_snackbar">Recent search list is clear.</string>
 
     <!--MY CITITES FRAGMENT-->
     <string name="myCitiesTitle">My Cities</string>

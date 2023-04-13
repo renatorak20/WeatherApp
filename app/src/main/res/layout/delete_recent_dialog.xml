@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/search_rounded_background">
+
+    <TextView
+        android:id="@+id/dialogTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="16dp"
+        style="@style/HeadlineMediumNLv1Left"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="@string/clear_recent_title" />
+
+    <TextView
+        android:id="@+id/dialogDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="8dp"
+        style="@style/BodyMediumNLv1Left"
+        app:layout_constraintTop_toBottomOf="@+id/dialogTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="@string/clear_recent_desc" />
+
+    <Button
+        android:id="@+id/dialogCancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:textColor="?attr/color_secondary"
+        android:text="@string/cancel_cap"
+        app:layout_constraintEnd_toStartOf="@+id/dialogClear"
+        app:layout_constraintTop_toBottomOf="@+id/dialogDescription"
+        android:layout_marginEnd="32dp"
+        android:layout_marginTop="16dp" />
+
+    <Button
+        android:id="@+id/dialogClear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/color_secondary"
+        android:textColor="?attr/surface_surface_1"
+        android:text="@string/clear_cap"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dialogDescription"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

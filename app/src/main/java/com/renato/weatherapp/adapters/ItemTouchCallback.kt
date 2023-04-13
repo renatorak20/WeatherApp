@@ -33,7 +33,7 @@ class ItemTouchCallback(val recView: RecyclerView) : ItemTouchHelper.Callback() 
         viewHolder: RecyclerView.ViewHolder,
         target: RecyclerView.ViewHolder
     ): Boolean {
-        val adapter = recView.adapter as CityFavouritesAdapter
+        val adapter = recView.adapter as CityListAdapter
         val from = viewHolder.adapterPosition
         val to = target.adapterPosition
         CoroutineScope(IO).launch {

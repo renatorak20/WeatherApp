@@ -37,6 +37,11 @@
     <string name="clearRecentSearchList">OBRIŠI POPIS NEDAVNIH PRETRAŽIVANJA</string>
     <string name="croatian">Hrvatski</string>
     <string name="english">Engleski</string>
+    <string name="clear_recent_title">Očistiti popis nedavnih pretraga?</string>
+    <string name="clear_recent_desc">Ako izbrišete popis nedavnih pretraga, vaš će početni zaslon biti prazan.</string>
+    <string name="clear_cap">IZBRIŠI</string>
+    <string name="cancel_cap">ODUSTANI</string>
+    <string name="clear_recent_snackbar">Popis nedavnih pretraga je izbrisan.</string>
 
     <!--MY CITITES FRAGMENT-->
     <string name="myCitiesTitle">Moji Gradovi</string>
