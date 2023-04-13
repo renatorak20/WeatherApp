@@ -11,12 +11,21 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class ItemTouchCallback(val recView: RecyclerView) : ItemTouchHelper.Callback() {
+
+    private var isEnabled = false
+
     override fun getMovementFlags(
         recyclerView: RecyclerView,
         viewHolder: RecyclerView.ViewHolder
     ): Int {
-        val flags = UP or DOWN
-        return makeMovementFlags(flags, 0)
+
+        return if (isEnabled) {
+            val flags = UP or DOWN
+            return makeMovementFlags(flags, 0)
+        } else {
+            0
+        }
+
     }
 
     override fun onMove(
@@ -24,7 +33,7 @@ class ItemTouchCallback(val recView: RecyclerView) : ItemTouchHelper.Callback() 
         viewHolder: RecyclerView.ViewHolder,
         target: RecyclerView.ViewHolder
     ): Boolean {
-        val adapter = recView.adapter as CityListAdapter
+        val adapter = recView.adapter as CityFavouritesAdapter
         val from = viewHolder.adapterPosition
         val to = target.adapterPosition
         CoroutineScope(IO).launch {
@@ -37,4 +46,9 @@ class ItemTouchCallback(val recView: RecyclerView) : ItemTouchHelper.Callback() 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
         TODO("Not yet implemented")
     }
+
+    fun changeEnabled() {
+        isEnabled = !isEnabled
+    }
+
 }

@@ -186,8 +186,8 @@ class Utils {
         val lonSecond = (((longitude - lonDegree) * 60) - lonMinute) * 60
         val lonDirection = if (longitude > 0) "E" else "W"
         return Pair(
-            "$latDegree°$latMinute′${String.format("%.2f", latSecond)}″$latDirection",
-            "$lonDegree°$lonMinute′${String.format("%.2f", lonSecond)}″$lonDirection"
+            "$latDegree°$latMinute′${String.format("%.0f", latSecond)}″$latDirection",
+            "$lonDegree°$lonMinute′${String.format("%.0f", lonSecond)}″$lonDirection"
         )
     }
 

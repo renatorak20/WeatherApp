@@ -43,6 +43,7 @@
     <string name="calendar_item">Calendar Item</string>
     <string name="edit_item">Edit Item</string>
     <string name="done_item">Done Item</string>
+    <string name="errorRefreshing">Nije moguće dohvatiti najnoviju prognozu.</string>
 
     <!-- SEARCH FRAGMENT-->
     <string name="search_bar_hint">Pretraži Gradove</string>

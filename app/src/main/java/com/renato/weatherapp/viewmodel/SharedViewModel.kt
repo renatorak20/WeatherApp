@@ -96,10 +96,13 @@ class SharedViewModel : ViewModel() {
                 responses?.stream()?.map { city -> Utils().weatherToFavourites(city.body()!!) }
                     ?.toList()
             _favourites.value?.let { database?.weatherDao()?.updateFavourites(it) }
-
             Preferences(activity).setFavouritesLastUpdated()
-            _favLastUpdated.value = Preferences(activity).getFavouritesLastUpdated()
+            setFavouritesLatestUpdate(activity)
         }
+    }
+
+    fun setFavouritesLatestUpdate(activity: Activity) {
+        _favLastUpdated.value = Preferences(activity).getFavouritesLastUpdated()
     }
 
     fun getNewForecast(city: String) {
@@ -149,10 +152,9 @@ class SharedViewModel : ViewModel() {
         }
     }
 
-    fun updateCitiesInFravourites(context: Context, cities: List<WeatherFavourite>) {
+    fun addCitiesInFravourites(context: Context, cities: List<WeatherFavourite>) {
         viewModelScope.launch {
             val database = WeatherApiDatabase.getDatabase(context)
-            database?.weatherDao()?.nukeFavourites()
             database?.weatherDao()?.insertAll(cities)
         }
     }

@@ -49,6 +49,7 @@
     <string name="lastUpdated">Last updated: %1$s</string>
     <string name="notUpdated">Not yet updated!</string>
     <string name="timeText" translatable="false">%1$s %2$s</string>
+    <string name="errorRefreshing">Unable to refresh latest forecast.</string>
 
     <!-- SEARCH FRAGMENT-->
     <string name="search_bar_hint">Search Cities</string>
@@ -93,9 +94,6 @@
     <string name="favouritesLastUpdated" translatable="false">FavouritesLastUpdated</string>
     <string name="recentsLastUpdated" translatable="false">RecentsLastUpdated</string>
     <string name="myCity" translatable="false">MyCity</string>
-    <string name="appwidget_text">EXAMPLE</string>
-    <string name="add_widget">Add widget</string>
-    <string name="app_widget_description">This is an app widget description</string>
 
 
 </resources>
