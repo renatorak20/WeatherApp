@@ -66,6 +66,8 @@
     <string name="error">Error</string>
     <string name="httpError">Oops! No forecast for you now, try again later!</string>
     <string name="recents">Recent</string>
+    <string name="distance_km">Distance: %1$d km</string>
+    <string name="distance_mil">Distance: %1$d mil</string>
 
     <!--RECENTS FRAGMENT-->
     <string name="dms" translatable="false">%1$s, %2$s</string>

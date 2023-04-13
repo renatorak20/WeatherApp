@@ -60,6 +60,8 @@
     <string name="error">Pogreška</string>
     <string name="httpError">Oops! Trenutno nema prognoze za tebe, pokušaj ponovno kasnije!</string>
     <string name="recents">Nedavno pretraživano</string>
+    <string name="distance_km">Udaljenost: %1$d km</string>
+    <string name="distance_mil">Udaljenost: %1$d mil</string>
 
     <!-- CITY DETAIL ACTIVITY-->
     <string name="favourite_item">Favourite Item</string>

@@ -158,7 +158,8 @@ class SearchFragment : Fragment() {
             requireContext(),
             recents as ArrayList<Any>,
             sharedViewModel,
-            Preferences(requireActivity()).getCurrentUnits()
+            Preferences(requireActivity()).getCurrentUnits(),
+            requireActivity()
         )
         binding.recyclerView.adapter = adapter
     }

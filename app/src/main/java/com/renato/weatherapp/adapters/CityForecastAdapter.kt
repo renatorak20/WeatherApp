@@ -9,7 +9,6 @@ import coil.load
 import com.renato.weatherapp.R
 import com.renato.weatherapp.data.model.ForecastDay
 import com.renato.weatherapp.data.model.Hour
-import com.renato.weatherapp.databinding.CityDetailParameterBinding
 import com.renato.weatherapp.databinding.CityDetailRecyclerItemBinding
 
 const val TYPE_TODAY_HOURS = 0
@@ -18,7 +17,7 @@ const val TYPE_DAYS = 1
 class CityForecastAdapter(
     val context: Context,
     val array: ArrayList<Any>,
-    private val current: Boolean,
+    private val currentUnits: Boolean,
     private val type: Int
 ) : RecyclerView.Adapter<CityForecastAdapter.CityItemViewHolder>() {
 
@@ -38,7 +37,7 @@ class CityForecastAdapter(
             TYPE_TODAY_HOURS -> {
                 val hour = array[position] as Hour
 
-                if (current) {
+                if (currentUnits) {
                     holder.binding.temperatureText.text = context.resources.getString(
                         R.string.temperatureMetricValue,
                         hour.temp_c.toInt()
@@ -55,7 +54,7 @@ class CityForecastAdapter(
             TYPE_DAYS -> {
                 val day = array[position] as ForecastDay
 
-                if (current) {
+                if (currentUnits) {
                     holder.binding.temperatureText.text = context.resources.getString(
                         R.string.temperatureMetricValue,
                         day.day.maxtemp_c.toInt()

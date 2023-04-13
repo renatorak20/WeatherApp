@@ -16,7 +16,8 @@
         android:roundIcon="@drawable/ic_icons_weather_lc"
         android:supportsRtl="true"
         android:theme="@style/Theme.WeatherAppSofaScore"
-        tools:targetApi="31">
+        tools:targetApi="31"
+        android:enableOnBackInvokedCallback="true">
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

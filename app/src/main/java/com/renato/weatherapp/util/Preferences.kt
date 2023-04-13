@@ -45,11 +45,10 @@ class Preferences(private val activity: Activity) {
     }
 
     fun getPreferedLatLng(): LatLng {
-        val lat = preferences.getFloat(extrasCoord[0], 0.0F)
-        val lon = preferences.getFloat(extrasCoord[1], 0.0F)
+        val lat = preferences.getFloat(extrasCoord[1], 0.0F)
+        val lon = preferences.getFloat(extrasCoord[2], 0.0F)
         return LatLng(lat.toDouble(), lon.toDouble())
     }
-
 
     fun getCurrentUnits(): Boolean {
         return preferences.getString(extrasUnit[0], extrasUnit[1])
@@ -84,12 +83,14 @@ class Preferences(private val activity: Activity) {
         )
     }
 
-    fun setMyCity(cityName: String) {
+    fun setMyCity(cityName: String, lat: Float, lon: Float) {
         preferences.edit().putString(resources.getString(R.string.myCity), cityName).apply()
+        preferences.edit().putFloat(extrasCoord[1], lat).apply()
+        preferences.edit().putFloat(extrasCoord[2], lon).apply()
     }
 
     fun getMyCity(): String {
-        return preferences.getString(resources.getString(R.string.myCity), "London")!!
+        return preferences.getString(resources.getString(R.string.myCity), "")!!
     }
 
 }

@@ -56,10 +56,6 @@ class SettingsFragment : Fragment() {
 
         loadSpinners()
 
-        binding.unitSelector.unitRadioGroup.setOnCheckedChangeListener { _, _ ->
-            Preferences(requireActivity()).swapUnits()
-        }
-
         binding.about.moreInfoButton.setOnClickListener {
             startActivity(Intent(requireContext(), AboutActivity::class.java))
         }
@@ -73,7 +69,9 @@ class SettingsFragment : Fragment() {
 
         binding.citySelector.setOnItemClickListener { adapterView, view, i, l ->
             Preferences(requireActivity()).setMyCity(
-                binding.citySelector.adapter.getItem(i).toString()
+                binding.citySelector.adapter.getItem(i).toString(),
+                sharedViewModel.getRecents().value?.get(i)?.latitude!!.toFloat(),
+                sharedViewModel.getRecents().value?.get(i)?.longitude!!.toFloat()
             )
         }
 
@@ -99,23 +97,22 @@ class SettingsFragment : Fragment() {
         sharedViewModel.getFavourites().observe(viewLifecycleOwner) {
 
             if (sharedViewModel.getFavouritesNames()?.isNotEmpty() == true) {
-                val myCityAdapter = ArrayAdapter(
+                val citiesNames = sharedViewModel.getFavouritesNames()
+                val myCityAdapter: ArrayAdapter<String> = ArrayAdapter(
                     requireContext(),
                     R.layout.spinner_item,
-                    sharedViewModel.getFavouritesNames()!!
+                    citiesNames!!
                 )
                 (binding.citySelector as? MaterialAutoCompleteTextView)?.setAdapter(myCityAdapter)
-
-                //loadAppPreferenes()
-
             }
+            loadAppPreferenes()
         }
     }
 
     private fun loadAppPreferenes() {
         when (preferences.getString(extrasUnit[0], extrasUnit[1])) {
             extrasUnit[1] -> binding.unitSelector.unitRadioGroup.check(R.id.metricButton)
-            extrasUnit[2] -> binding.unitSelector.unitRadioGroup.check(R.id.imperialButton)
+            else -> binding.unitSelector.unitRadioGroup.check(R.id.imperialButton)
         }
 
         when (preferences.getString(extrasLang[0], extrasLang[1])) {
@@ -123,9 +120,15 @@ class SettingsFragment : Fragment() {
             else -> binding.languageSelector.setText(getString(R.string.croatian), false)
         }
 
-        val myCityIndex = sharedViewModel.getFavouritesNames()
-            ?.indexOf(Preferences(requireActivity()).getMyCity())
-        myCityIndex?.let { binding.citySelector.setSelection(it) }
+        val names = sharedViewModel.getFavouritesNames()
+        if (names?.contains(Preferences(requireActivity()).getMyCity()) == true) {
+            binding.citySelector.setText(Preferences(requireActivity()).getMyCity(), false)
+        }
+
+        binding.unitSelector.unitRadioGroup.setOnCheckedChangeListener { _, _ ->
+            Preferences(requireActivity()).swapUnits()
+        }
+
     }
 
     private fun showClearRecentDialog() {

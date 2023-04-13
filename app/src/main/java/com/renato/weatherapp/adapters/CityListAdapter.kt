@@ -1,6 +1,7 @@
 package com.renato.weatherapp.adapters
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.util.Log
@@ -12,10 +13,12 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.google.android.material.snackbar.Snackbar
 import com.renato.weatherapp.CityDetailActivity
+import com.renato.weatherapp.MainActivity
 import com.renato.weatherapp.R
 import com.renato.weatherapp.data.model.WeatherFavourite
 import com.renato.weatherapp.data.model.WeatherRecent
 import com.renato.weatherapp.databinding.CityListItemBinding
+import com.renato.weatherapp.util.Preferences
 import com.renato.weatherapp.util.Utils
 import com.renato.weatherapp.viewmodel.SharedViewModel
 
@@ -23,11 +26,11 @@ class CityListAdapter(
     val context: Context,
     val array: ArrayList<Any>,
     val viewModel: SharedViewModel,
-    val currentUnits: Boolean
+    val currentUnits: Boolean,
+    val activity: Activity
 ) : RecyclerView.Adapter<CityListAdapter.CityItemViewHolder>() {
 
     var reorderSwitch = false
-
 
     class CityItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val binding = CityListItemBinding.bind(view)
@@ -42,19 +45,21 @@ class CityListAdapter(
     @SuppressLint("ClickableViewAccessibility")
     override fun onBindViewHolder(holder: CityItemViewHolder, position: Int) {
 
-        val city = array[position]
-
-        when (city) {
+        when (val city = array[position]) {
             is WeatherFavourite -> {
 
                 holder.binding.titleText.text = city.cityName
                 holder.binding.imageWeather.load(context.getString(R.string.iconUrl, city.icon))
-                val currentTime = city.getCurrentTime().split(" ")
-                holder.binding.firstText.text =
-                    context.getString(R.string.timeText, currentTime[0], currentTime[1])
-                holder.binding.secondText.text = currentTime[2].replace("(", "").replace(")", "")
-                holder.binding.tempText.text =
-                    context.getString(R.string.temperatureMetricValue, city.temperatureC)
+                holder.binding.firstText.text = city.getCurrentTime(context)
+                holder.binding.secondText.text = city.getCurrentTimezone()
+
+                if (currentUnits) {
+                    holder.binding.tempText.text =
+                        context.getString(R.string.temperatureMetricValue, city.temperatureC)
+                } else {
+                    holder.binding.tempText.text =
+                        context.getString(R.string.temperatureImperialValue, city.temperatureF)
+                }
 
                 holder.binding.favIcon.setOnClickListener {
                     changeFavouriteStatus(city.cityName, holder.binding.favIcon, true)
@@ -84,11 +89,32 @@ class CityListAdapter(
                 val dms = Utils().convertToDMS(city.latitude, city.longitude)
                 holder.binding.firstText.text =
                     context.getString(R.string.dms, dms.first, dms.second)
-                holder.binding.secondText.text = ""
 
 
-                holder.binding.tempText.text =
-                    context.getString(R.string.temperatureMetricValue, city.temperature_c)
+
+                if (currentUnits) {
+                    holder.binding.tempText.text =
+                        context.getString(R.string.temperatureMetricValue, city.temperature_c)
+                    holder.binding.secondText.text = context.getString(
+                        R.string.distance_km,
+                        Utils().getDistanceKm(
+                            city.latitude,
+                            city.longitude,
+                            Preferences(activity).getPreferedLatLng()
+                        )
+                    )
+                } else {
+                    holder.binding.tempText.text =
+                        context.getString(R.string.temperatureImperialValue, city.temperature_f)
+                    holder.binding.secondText.text = context.getString(
+                        R.string.distance_mil,
+                        Utils().getDistanceMil(
+                            city.latitude,
+                            city.longitude,
+                            Preferences(activity).getPreferedLatLng()
+                        )
+                    )
+                }
 
                 holder.binding.favIcon.setOnClickListener {
                     if (viewModel.getFavouritesNames()?.contains(city.cityName) == true) {

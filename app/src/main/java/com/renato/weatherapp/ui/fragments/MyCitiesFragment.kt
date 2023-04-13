@@ -60,7 +60,8 @@ class MyCitiesFragment : Fragment() {
                 requireContext(),
                 favourites as ArrayList<Any>,
                 sharedViewModel,
-                Preferences(requireActivity()).getCurrentUnits()
+                Preferences(requireActivity()).getCurrentUnits(),
+                requireActivity()
             )
             binding.recyclerView.adapter = recyclerAdapter
         }

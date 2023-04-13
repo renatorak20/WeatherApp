@@ -1,8 +1,10 @@
 package com.renato.weatherapp.data.model
 
+import android.content.Context
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.renato.weatherapp.R
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -27,7 +29,7 @@ data class WeatherFavourite(
     val icon: String
 ) {
 
-    fun getCurrentTime(): String {
+    fun getFullCurrentTime(): String {
 
         val zone = ZoneId.of(tzId)
         val offset = zone.rules.getOffset(Instant.now()) as ZoneOffset
@@ -41,6 +43,16 @@ data class WeatherFavourite(
 
         return dateTime.format(outputFormat) + timezone
 
+    }
+
+    fun getCurrentTimezone(): String {
+        val currentTime = getFullCurrentTime().split(" ")
+        return currentTime[2].replace("(", "").replace(")", "")
+    }
+
+    fun getCurrentTime(context: Context): String {
+        val currentTime = getFullCurrentTime().split(" ")
+        return context.getString(R.string.timeText, currentTime[0], currentTime[1])
     }
 
 }
