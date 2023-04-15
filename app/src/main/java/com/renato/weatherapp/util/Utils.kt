@@ -1,17 +1,24 @@
 package com.renato.weatherapp.util
 
 import android.annotation.SuppressLint
-import android.app.Activity
+import android.app.*
 import android.content.Context
+import android.content.Context.NOTIFICATION_SERVICE
+import android.content.Intent
 import android.location.Location
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
+import android.os.Build
 import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.ContextCompat
 import coil.load
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.renato.weatherapp.MainActivity
 import com.renato.weatherapp.R
 import com.renato.weatherapp.data.model.Hour
 import com.renato.weatherapp.data.model.WeatherFavourite
@@ -20,6 +27,7 @@ import com.renato.weatherapp.data.model.WeatherResponseForecast
 import com.renato.weatherapp.ui.custom.CityDetailParameter
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.util.*
 
 class Utils {
 
@@ -191,4 +199,10 @@ class Utils {
         )
     }
 
+    fun restartApp(activity: Activity) {
+        val intent = Intent(activity, MainActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+        activity.startActivity(intent)
+        activity.finish()
+    }
 }

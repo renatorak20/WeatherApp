@@ -45,6 +45,12 @@
     <string name="clear_cap">CLEAR</string>
     <string name="cancel_cap">CANCEL</string>
     <string name="clear_recent_snackbar">Recent search list is clear.</string>
+    <string name="set_time">CHANGE</string>
+    <string name="select_time">Select time</string>
+    <string name="notifications">Notifications</string>
+    <string name="notificationsHour" translatable="false">NotificationsHour</string>
+    <string name="notificationsMinute" translatable="false">NotificationsMinute</string>
+    <string name="notifications_desc">Get forecast at:</string>
 
     <!--MY CITITES FRAGMENT-->
     <string name="myCitiesTitle">My Cities</string>
@@ -102,5 +108,9 @@
     <string name="recentsLastUpdated" translatable="false">RecentsLastUpdated</string>
     <string name="myCity" translatable="false">MyCity</string>
 
+    <!-- OTHER -->
+    <string name="channel_name" translatable="false">Forecast notification</string>
+    <string name="channel_description" translatable="false">Your daily forecast</string>4
+    <string name="notifications_id" translatable="false">1</string>
 
 </resources>

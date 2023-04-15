@@ -45,7 +45,8 @@
                     android:background="@drawable/ic_arrow_back"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/texteneter" />
+                    app:layout_constraintEnd_toStartOf="@+id/texteneter"
+                    android:backgroundTint="?attr/neutrals_n_lv_1" />
 
             </androidx.appcompat.widget.Toolbar>
 

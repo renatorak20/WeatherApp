@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
@@ -34,12 +33,13 @@
         <entry key="..\:/Users/renat/AndroidStudioProjects/WeatherAppSofaScore/app/src/main/res/layout/content_scrolling.xml" value="0.3009833262077811" />
         <entry key="..\:/Users/renat/AndroidStudioProjects/WeatherAppSofaScore/app/src/main/res/layout/delete_recent_dialog.xml" value="0.33" />
         <entry key="..\:/Users/renat/AndroidStudioProjects/WeatherAppSofaScore/app/src/main/res/layout/fragment_maps.xml" value="0.30085470085470084" />
-        <entry key="..\:/Users/renat/AndroidStudioProjects/WeatherAppSofaScore/app/src/main/res/layout/fragment_my_cities.xml" value="0.33" />
+        <entry key="..\:/Users/renat/AndroidStudioProjects/WeatherAppSofaScore/app/src/main/res/layout/fragment_my_cities.xml" value="0.1" />
         <entry key="..\:/Users/renat/AndroidStudioProjects/WeatherAppSofaScore/app/src/main/res/layout/fragment_place_map.xml" value="0.30085470085470084" />
         <entry key="..\:/Users/renat/AndroidStudioProjects/WeatherAppSofaScore/app/src/main/res/layout/fragment_search.xml" value="0.2" />
-        <entry key="..\:/Users/renat/AndroidStudioProjects/WeatherAppSofaScore/app/src/main/res/layout/fragment_settings.xml" value="0.3009833262077811" />
+        <entry key="..\:/Users/renat/AndroidStudioProjects/WeatherAppSofaScore/app/src/main/res/layout/fragment_settings.xml" value="0.1" />
         <entry key="..\:/Users/renat/AndroidStudioProjects/WeatherAppSofaScore/app/src/main/res/layout/recents_deleted_snackbar.xml" value="0.33" />
         <entry key="..\:/Users/renat/AndroidStudioProjects/WeatherAppSofaScore/app/src/main/res/layout/search_bar.xml" value="0.33" />
+        <entry key="..\:/Users/renat/AndroidStudioProjects/WeatherAppSofaScore/app/src/main/res/layout/set_notifications_layout.xml" value="0.25" />
         <entry key="..\:/Users/renat/AndroidStudioProjects/WeatherAppSofaScore/app/src/main/res/layout/settings_unit_selector.xml" value="0.25" />
         <entry key="..\:/Users/renat/AndroidStudioProjects/WeatherAppSofaScore/app/src/main/res/layout/spinner_item.xml" value="0.1464076858813701" />
         <entry key="..\:/Users/renat/AndroidStudioProjects/WeatherAppSofaScore/app/src/main/res/layout/widget.xml" value="1.1" />
@@ -54,7 +54,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" project-jdk-name="jbr-17" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

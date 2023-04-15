@@ -1,5 +1,9 @@
 package com.renato.weatherapp.ui.fragments
 
+import android.annotation.SuppressLint
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -10,6 +14,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ImageView
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -19,7 +26,9 @@ import com.renato.weatherapp.AboutActivity
 import com.renato.weatherapp.R
 import com.renato.weatherapp.databinding.FragmentSettingsBinding
 import com.renato.weatherapp.util.Preferences
+import com.renato.weatherapp.util.notifications.ReminderManager
 import com.renato.weatherapp.viewmodel.SharedViewModel
+import java.util.*
 
 
 class SettingsFragment : Fragment() {
@@ -29,6 +38,7 @@ class SettingsFragment : Fragment() {
     private lateinit var sharedViewModel: SharedViewModel
     private lateinit var extrasUnit: List<String>
     private lateinit var extrasLang: Array<String>
+    private var pendingIntent: PendingIntent? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,6 +64,9 @@ class SettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        createNotificationChannel()
+        ReminderManager.startReminder(requireContext())
+
         loadSpinners()
 
         binding.about.moreInfoButton.setOnClickListener {
@@ -62,8 +75,8 @@ class SettingsFragment : Fragment() {
 
         binding.languageSelector.setOnItemClickListener { _, _, pos, _ ->
             when (pos) {
-                0 -> Preferences(requireActivity()).setLanguage(extrasLang[1])
-                else -> Preferences(requireActivity()).setLanguage(extrasLang[2])
+                0 -> Preferences(requireContext()).setLanguage(extrasLang[1], requireActivity())
+                else -> Preferences(requireContext()).setLanguage(extrasLang[2], requireActivity())
             }
         }
 
@@ -122,11 +135,11 @@ class SettingsFragment : Fragment() {
 
         val names = sharedViewModel.getFavouritesNames()
         if (names?.contains(Preferences(requireActivity()).getMyCity()) == true) {
-            binding.citySelector.setText(Preferences(requireActivity()).getMyCity(), false)
+            binding.citySelector.setText(Preferences(requireContext()).getMyCity(), false)
         }
 
         binding.unitSelector.unitRadioGroup.setOnCheckedChangeListener { _, _ ->
-            Preferences(requireActivity()).swapUnits()
+            Preferences(requireContext()).swapUnits(requireActivity())
         }
 
     }
@@ -157,4 +170,44 @@ class SettingsFragment : Fragment() {
             }
             .show()
     }
+
+    fun createNotificationChannel() {
+        val channel = NotificationChannel(
+            getString(R.string.app_name),
+            getString(R.string.app_name),
+            NotificationManager.IMPORTANCE_HIGH
+        )
+        ContextCompat.getSystemService(requireContext(), NotificationManager::class.java)
+            ?.createNotificationChannel(channel)
+    }
+
+    //testiranje notifikacije
+    @SuppressLint("MissingPermission")
+    private fun showNotification() {
+
+        sharedViewModel.getNewForecast(Preferences(requireContext()).getMyCity())
+
+        sharedViewModel.getForecast().observe(viewLifecycleOwner) {
+
+            val city = it.body()!!
+
+            val builder: NotificationCompat.Builder =
+                NotificationCompat.Builder(requireContext(), "foxandroid")
+                    .setSmallIcon(R.drawable.ic_launcher_foreground)
+                    .setContentTitle(city.location.name)
+                    .setContentText(city.forecast.forecastday[0].day.condition.text)
+                    .setAutoCancel(true)
+                    .setDefaults(NotificationCompat.DEFAULT_ALL)
+                    .setPriority(NotificationCompat.PRIORITY_HIGH)
+                    .setContentIntent(pendingIntent)
+
+            with(NotificationManagerCompat.from(requireContext())) {
+                notify(1, builder.build())
+            }
+        }
+    }
 }
+
+//TODO provjeriti sve resources
+//TODO dodati API call u notifikacije
+//TODO ocistiti kod

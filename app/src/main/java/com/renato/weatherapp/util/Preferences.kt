@@ -10,30 +10,31 @@ import com.renato.weatherapp.MainActivity
 import com.renato.weatherapp.R
 
 
-class Preferences(private val activity: Activity) {
+class Preferences(private val context: Context) {
 
-    private val extrasUnit = activity.resources.getStringArray(R.array.units)
-    private val extrasLang = activity.resources.getStringArray(R.array.languages)
-    private val extrasCoord = activity.resources.getStringArray(R.array.latlng)
-    private val preferences = activity.getSharedPreferences(
-        activity.resources.getString(R.string.package_name),
+    private val extrasUnit = context.resources.getStringArray(R.array.units)
+    private val extrasLang = context.resources.getStringArray(R.array.languages)
+    private val extrasCoord = context.resources.getStringArray(R.array.latlng)
+    private val extrasNotification = context.resources.getStringArray(R.array.notifications)
+    private val preferences = context.getSharedPreferences(
+        context.resources.getString(R.string.package_name),
         Context.MODE_PRIVATE
     )
-    private val resources = activity.resources
+    private val resources = context.resources
 
 
-    fun swapUnits(){
-        when(preferences.getString(extrasUnit[0], extrasUnit[1])){
+    fun swapUnits(activity: Activity) {
+        when (preferences.getString(extrasUnit[0], extrasUnit[1])) {
             extrasUnit[1] -> preferences.edit().putString(extrasUnit[0], extrasUnit[2]).apply()
             else -> preferences.edit().putString(extrasUnit[0], extrasUnit[1]).apply()
         }
-        restartApp()
+        Utils().restartApp(activity)
     }
 
-    fun setLanguage(language: String){
-        if(language != preferences.getString(extrasLang[0], extrasUnit[1])){
+    fun setLanguage(language: String, activity: Activity) {
+        if (language != preferences.getString(extrasLang[0], extrasUnit[1])) {
             preferences.edit().putString(extrasLang[0], language).apply()
-            restartApp()
+            Utils().restartApp(activity)
         }
     }
 
@@ -62,13 +63,6 @@ class Preferences(private val activity: Activity) {
         AppCompatDelegate.setApplicationLocales(appLocale)
     }
 
-    private fun restartApp() {
-        val intent = Intent(activity, MainActivity::class.java)
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-        activity.startActivity(intent)
-        activity.finish()
-    }
-
     fun setFavouritesLastUpdated() {
         preferences.edit().putString(
             resources.getString(R.string.favouritesLastUpdated),
@@ -91,6 +85,18 @@ class Preferences(private val activity: Activity) {
 
     fun getMyCity(): String {
         return preferences.getString(resources.getString(R.string.myCity), "")!!
+    }
+
+    fun setNotificationsTime(hour: Int, minute: Int) {
+        preferences.edit().putInt(resources.getString(R.string.notificationsHour), hour).apply()
+        preferences.edit().putInt(resources.getString(R.string.notificationsMinute), minute).apply()
+    }
+
+    fun getNotificationsTime(): Pair<Int, Int> {
+        return Pair(
+            preferences.getInt(resources.getString(R.string.notificationsHour), 0),
+            preferences.getInt(resources.getString(R.string.notificationsHour), 0)
+        )
     }
 
 }

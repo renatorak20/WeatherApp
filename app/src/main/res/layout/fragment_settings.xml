@@ -114,6 +114,22 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/unit_selector" />
 
+        <!--
+        <include
+            android:id="@+id/notifications"
+            layout="@layout/set_notifications_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/about" />
+            -->
+
+
         <Button
             android:id="@+id/clearMyCities"
             android:layout_width="match_parent"

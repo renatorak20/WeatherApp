@@ -42,6 +42,10 @@
     <string name="clear_cap">IZBRIŠI</string>
     <string name="cancel_cap">ODUSTANI</string>
     <string name="clear_recent_snackbar">Popis nedavnih pretraga je izbrisan.</string>
+    <string name="set_time">PROMIJENI</string>
+    <string name="select_time">Odaberi vrijeme</string>
+    <string name="notifications">Obavijesti</string>
+    <string name="notifications_desc">Dobij prognozu u:</string>
 
     <!--MY CITITES FRAGMENT-->
     <string name="myCitiesTitle">Moji Gradovi</string>
