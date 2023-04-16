@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
+import com.bumptech.glide.util.Util
 import com.google.android.gms.maps.model.LatLng
 import com.renato.weatherapp.MainActivity
 import com.renato.weatherapp.R
@@ -28,6 +29,7 @@ class Preferences(private val context: Context) {
             extrasUnit[1] -> preferences.edit().putString(extrasUnit[0], extrasUnit[2]).apply()
             else -> preferences.edit().putString(extrasUnit[0], extrasUnit[1]).apply()
         }
+        Utils().updateWidget(activity.applicationContext)
         Utils().restartApp(activity)
     }
 

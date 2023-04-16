@@ -101,6 +101,26 @@ class SharedViewModel : ViewModel() {
         }
     }
 
+    fun getUpdatedRecents(activity: Activity) {
+        viewModelScope.launch {
+            val database = WeatherApiDatabase.getDatabase(activity.applicationContext)
+            val allRecents = database?.weatherDao()?.getAllRecents()
+            val newRecents = allRecents?.map { city ->
+                async {
+                    Network().getService().getForecast(apiKey, city.cityName, 1)
+                }
+            }
+            val responses = newRecents?.awaitAll()
+            val recents =
+                responses?.stream()?.map { city -> Utils().weatherToRecent(city.body()!!) }
+                    ?.toList()
+            recents?.let { database.weatherDao().updateRecents(it) }
+            _recents.value =
+                responses?.stream()?.map { city -> Utils().weatherToRecent(city.body()!!) }
+                    ?.toList()
+        }
+    }
+
     fun setFavouritesLatestUpdate(activity: Activity) {
         _favLastUpdated.value = Preferences(activity).getFavouritesLastUpdated()
     }

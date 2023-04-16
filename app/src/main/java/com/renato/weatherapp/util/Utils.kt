@@ -25,6 +25,8 @@ import com.renato.weatherapp.data.model.WeatherFavourite
 import com.renato.weatherapp.data.model.WeatherRecent
 import com.renato.weatherapp.data.model.WeatherResponseForecast
 import com.renato.weatherapp.ui.custom.CityDetailParameter
+import com.renato.weatherapp.ui.fragments.SettingsFragment
+import com.renato.weatherapp.ui.widget.Widget
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -204,5 +206,11 @@ class Utils {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
         activity.startActivity(intent)
         activity.finish()
+    }
+
+    fun updateWidget(context: Context) {
+        val intent = Intent(context, Widget::class.java)
+        intent.action = SettingsFragment.UPDATE_WIDGET
+        context.sendBroadcast(intent)
     }
 }

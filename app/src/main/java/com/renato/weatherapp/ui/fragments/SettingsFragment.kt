@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
+import android.appwidget.AppWidgetManager
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -14,6 +16,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ImageView
+import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
@@ -23,11 +26,20 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.renato.weatherapp.AboutActivity
+import com.renato.weatherapp.MainActivity
 import com.renato.weatherapp.R
+import com.renato.weatherapp.data.networking.Network
 import com.renato.weatherapp.databinding.FragmentSettingsBinding
+import com.renato.weatherapp.ui.widget.Widget
 import com.renato.weatherapp.util.Preferences
+import com.renato.weatherapp.util.Utils
 import com.renato.weatherapp.util.notifications.ReminderManager
 import com.renato.weatherapp.viewmodel.SharedViewModel
+import dagger.hilt.android.internal.Contexts
+import dagger.hilt.android.internal.Contexts.getApplication
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.*
 
 
@@ -39,6 +51,11 @@ class SettingsFragment : Fragment() {
     private lateinit var extrasUnit: List<String>
     private lateinit var extrasLang: Array<String>
     private var pendingIntent: PendingIntent? = null
+
+    companion object {
+        const val UPDATE_WIDGET = "com.renato.weatherapp.UPDATE_WIDGET"
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -86,6 +103,8 @@ class SettingsFragment : Fragment() {
                 sharedViewModel.getRecents().value?.get(i)?.latitude!!.toFloat(),
                 sharedViewModel.getRecents().value?.get(i)?.longitude!!.toFloat()
             )
+            Utils().updateWidget(requireContext())
+
         }
 
         binding.clearMyCities.setOnClickListener {
@@ -97,6 +116,7 @@ class SettingsFragment : Fragment() {
         }
 
     }
+
 
     private fun loadSpinners() {
 

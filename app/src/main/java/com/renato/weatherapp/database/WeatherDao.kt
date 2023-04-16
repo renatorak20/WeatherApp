@@ -13,12 +13,6 @@ interface WeatherDao {
     @Query("SELECT * FROM favouritesTable")
     suspend fun getAllFavourites(): List<WeatherFavourite>
 
-    @Query("SELECT * FROM recentsTable WHERE city_name = :cityName")
-    suspend fun getRecentWeatherByCityName(cityName: String): List<WeatherRecent>
-
-    @Query("SELECT * FROM favouritesTable WHERE city_name = :cityName")
-    suspend fun getFavouriteWeatherByCityName(cityName: String): List<WeatherFavourite>
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertRecent(recent: WeatherRecent)
 
@@ -39,6 +33,9 @@ interface WeatherDao {
 
     @Update
     suspend fun updateFavourites(favs: List<WeatherFavourite>)
+
+    @Update
+    suspend fun updateRecents(favs: List<WeatherRecent>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(cities: List<WeatherFavourite>)
