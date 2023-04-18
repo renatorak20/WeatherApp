@@ -3,18 +3,13 @@ package com.renato.weatherapp.util
 import android.annotation.SuppressLint
 import android.app.*
 import android.content.Context
-import android.content.Context.NOTIFICATION_SERVICE
 import android.content.Intent
 import android.location.Location
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
-import android.os.Build
 import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
-import androidx.core.content.ContextCompat
 import coil.load
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -51,6 +46,13 @@ class Utils {
 
     fun getCurrentConditions(city: WeatherResponseForecast): Hour {
         return city.forecast.forecastday[0].hour[city.location.getCurrentHour()]
+    }
+
+    fun getNextThreeHoursConditions(city: WeatherResponseForecast): List<Hour> {
+        if (city.location.getCurrentHour() > 20) {
+            return listOf()
+        }
+        return city.forecast.forecastday[0].hour.slice(city.location.getCurrentHour()..city.location.getCurrentHour() + 3)
     }
 
     fun fillCityDetailParameters(
@@ -213,4 +215,13 @@ class Utils {
         intent.action = SettingsFragment.UPDATE_WIDGET
         context.sendBroadcast(intent)
     }
+
+    @SuppressLint("UseCompatLoadingForDrawables")
+    fun iconHelper(context: Context, id: Int, isDay: Boolean): Int {
+        val drawableName = "_${id}_"
+        val drawableSuffix = if (isDay) "day" else "night"
+        val resourceName = drawableName + drawableSuffix
+        return context.resources.getIdentifier(resourceName, "drawable", context.packageName)
+    }
+
 }

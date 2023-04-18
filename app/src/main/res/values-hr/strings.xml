@@ -77,6 +77,6 @@
 
     <string name="lastUpdated">Zadnje ažurirano: %1$s</string>
     <string name="notUpdated">Još nije ažurirano!</string>
-
+    <string name="notavailable">Nije dostupno</string>
 
 </resources>

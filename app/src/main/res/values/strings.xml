@@ -112,5 +112,6 @@
     <string name="channel_name" translatable="false">Forecast notification</string>
     <string name="channel_description" translatable="false">Your daily forecast</string>4
     <string name="notifications_id" translatable="false">1</string>
+    <string name="notavailable">Not available</string>
 
 </resources>

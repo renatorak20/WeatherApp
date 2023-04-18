@@ -37,4 +37,9 @@
         <item name="android:layout_marginEnd">15dp</item>
     </style>
 
+    <style name="MyWidgetTheme" parent="Theme.Material3.DynamicColors.DayNight">
+        <!-- Override default colorBackground attribute with custom color. -->
+        <item name="android:colorBackground">@color/surface_surface_2</item>
+    </style>
+
 </resources>
