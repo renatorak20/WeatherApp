@@ -49,7 +49,12 @@ class CityForecastAdapter(
                     )
                 }
                 holder.binding.timeDateText.text = hour.getCurrentHour()
-                holder.binding.weatherIcon.load("https:" + hour.condition.icon)
+                holder.binding.weatherIcon.load(
+                    context.resources.getString(
+                        R.string.iconUrl,
+                        hour.condition.icon
+                    )
+                )
             }
             TYPE_DAYS -> {
                 val day = array[position] as ForecastDay
@@ -67,7 +72,12 @@ class CityForecastAdapter(
                 }
 
                 holder.binding.timeDateText.text = day.getDayInWeek()
-                holder.binding.weatherIcon.load("https:" + day.day.condition.icon)
+                holder.binding.weatherIcon.load(
+                    context.resources.getString(
+                        R.string.iconUrl,
+                        day.day.condition.icon
+                    )
+                )
             }
         }
 

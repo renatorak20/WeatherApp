@@ -97,12 +97,8 @@
     <string name="pressureImperialValue" translatable="false">%1$d psi</string>
     <string name="humidityValue" translatable="false">%1$d%%</string>
     <string name="accuracyValue" translatable="false">99%</string>
-    <string name="loading">Loading...</string>
+    <string name="loading">Loading…</string>
     <string name="iconUrl" translatable="false">https:%1$s</string>
-
-
-    <!-- CITY MAP ACTIVITY-->
-    <string name="title_activity_city_map" translatable="false">CityMapActivity</string>
 
     <string name="favouritesLastUpdated" translatable="false">FavouritesLastUpdated</string>
     <string name="recentsLastUpdated" translatable="false">RecentsLastUpdated</string>

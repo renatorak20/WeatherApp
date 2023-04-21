@@ -55,9 +55,6 @@ class Widget : AppWidgetProvider() {
 
             val views = RemoteViews(context.packageName, R.layout.widget_basic)
 
-
-
-
             if (Preferences(context).getCurrentUnits()) {
                 views.setTextViewText(
                     R.id.temperature,
@@ -75,7 +72,6 @@ class Widget : AppWidgetProvider() {
                     )
                 )
             }
-
 
             views.setImageViewBitmap(
                 R.id.icon,
@@ -95,70 +91,74 @@ class Widget : AppWidgetProvider() {
         }
     }
 
-    fun fillForecastHour(context: Context, views: RemoteViews, city: WeatherResponseForecast) {
+    private fun fillForecastHour(
+        context: Context,
+        views: RemoteViews,
+        city: WeatherResponseForecast
+    ) {
         val hours = Utils().getNextThreeHoursConditions(city)
         val preferences = Preferences(context).getCurrentUnits()
-            if (preferences) {
-                views.setTextViewText(
-                    R.id.temperatureFirst,
-                    context.resources.getString(
-                        R.string.temperatureMetricValue,
-                        hours[0].temp_c.toInt()
-                    )
+        if (preferences) {
+            views.setTextViewText(
+                R.id.temperatureFirst,
+                context.resources.getString(
+                    R.string.temperatureMetricValue,
+                    hours[0].temp_c.toInt()
                 )
-                views.setTextViewText(
-                    R.id.temperatureSecond,
-                    context.resources.getString(
-                        R.string.temperatureMetricValue,
-                        hours[1].temp_c.toInt()
-                    )
+            )
+            views.setTextViewText(
+                R.id.temperatureSecond,
+                context.resources.getString(
+                    R.string.temperatureMetricValue,
+                    hours[1].temp_c.toInt()
                 )
-                views.setTextViewText(
-                    R.id.temperatureThird,
-                    context.resources.getString(
-                        R.string.temperatureMetricValue,
-                        hours[2].temp_c.toInt()
-                    )
+            )
+            views.setTextViewText(
+                R.id.temperatureThird,
+                context.resources.getString(
+                    R.string.temperatureMetricValue,
+                    hours[2].temp_c.toInt()
                 )
-            } else {
-                views.setTextViewText(
-                    R.id.temperatureFirst,
-                    context.resources.getString(
-                        R.string.temperatureImperialValue,
-                        hours[0].temp_f.toInt()
-                    )
+            )
+        } else {
+            views.setTextViewText(
+                R.id.temperatureFirst,
+                context.resources.getString(
+                    R.string.temperatureImperialValue,
+                    hours[0].temp_f.toInt()
                 )
-                views.setTextViewText(
-                    R.id.temperatureSecond,
-                    context.resources.getString(
-                        R.string.temperatureImperialValue,
-                        hours[1].temp_f.toInt()
-                    )
+            )
+            views.setTextViewText(
+                R.id.temperatureSecond,
+                context.resources.getString(
+                    R.string.temperatureImperialValue,
+                    hours[1].temp_f.toInt()
                 )
-                views.setTextViewText(
-                    R.id.temperatureThird,
-                    context.resources.getString(
-                        R.string.temperatureImperialValue,
-                        hours[2].temp_f.toInt()
-                    )
+            )
+            views.setTextViewText(
+                R.id.temperatureThird,
+                context.resources.getString(
+                    R.string.temperatureImperialValue,
+                    hours[2].temp_f.toInt()
                 )
-            }
+            )
+        }
 
-            views.setTextViewText(R.id.timeFirst, hours[0].getCurrentHour())
-            views.setImageViewBitmap(
-                R.id.weatherFirst,
-                loadImage(context, hours[0].condition.icon).get()
-            )
-            views.setTextViewText(R.id.timeSecond, hours[1].getCurrentHour())
-            views.setImageViewBitmap(
-                R.id.weatherSecond,
-                loadImage(context, hours[1].condition.icon).get()
-            )
-            views.setTextViewText(R.id.timeThird, hours[2].getCurrentHour())
-            views.setImageViewBitmap(
-                R.id.weatherThird,
-                loadImage(context, hours[2].condition.icon).get()
-            )
+        views.setTextViewText(R.id.timeFirst, hours[0].getCurrentHour())
+        views.setImageViewBitmap(
+            R.id.weatherFirst,
+            loadImage(context, hours[0].condition.icon).get()
+        )
+        views.setTextViewText(R.id.timeSecond, hours[1].getCurrentHour())
+        views.setImageViewBitmap(
+            R.id.weatherSecond,
+            loadImage(context, hours[1].condition.icon).get()
+        )
+        views.setTextViewText(R.id.timeThird, hours[2].getCurrentHour())
+        views.setImageViewBitmap(
+            R.id.weatherThird,
+            loadImage(context, hours[2].condition.icon).get()
+        )
 
         if (preferences) {
             views.setTextViewText(

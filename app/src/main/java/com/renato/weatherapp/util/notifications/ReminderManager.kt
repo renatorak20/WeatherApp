@@ -45,20 +45,4 @@ object ReminderManager {
         )
     }
 
-    fun stopReminder(
-        context: Context,
-        reminderId: Int = REMINDER_NOTIFICATION_REQUEST_CODE
-    ) {
-        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val intent = Intent(context, AlarmReceiver::class.java).let { intent ->
-            PendingIntent.getBroadcast(
-                context,
-                reminderId,
-                intent,
-                PendingIntent.FLAG_IMMUTABLE
-            )
-        }
-        alarmManager.cancel(intent)
-    }
-
 }

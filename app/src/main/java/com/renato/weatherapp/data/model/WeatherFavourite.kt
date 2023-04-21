@@ -29,7 +29,7 @@ data class WeatherFavourite(
     val icon: String
 ) {
 
-    fun getFullCurrentTime(): String {
+    private fun getFullCurrentTime(): String {
 
         val zone = ZoneId.of(tzId)
         val offset = zone.rules.getOffset(Instant.now()) as ZoneOffset

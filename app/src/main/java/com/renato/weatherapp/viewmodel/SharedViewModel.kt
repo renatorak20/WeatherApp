@@ -2,7 +2,6 @@ package com.renato.weatherapp.viewmodel
 
 import android.app.Activity
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -29,7 +28,6 @@ class SharedViewModel : ViewModel() {
     private val _recents = MutableLiveData<List<WeatherRecent>>()
     private val _favLastUpdated = MutableLiveData<String>()
     private val _recLastUpdated = MutableLiveData<String>()
-
 
     private val apiKey = "6c0c76f140cf4673aaa80504230704"
 
@@ -154,9 +152,6 @@ class SharedViewModel : ViewModel() {
             val database = WeatherApiDatabase.getDatabase(context)
             database?.weatherDao()?.insertFavourite(Utils().weatherToFavourites(response.body()!!))
             _favourites.value = database?.weatherDao()?.getAllFavourites()
-            for (item in _favourites.value!!) {
-                Log.i("FAVOURITE", item.cityName)
-            }
         }
     }
 
@@ -165,10 +160,6 @@ class SharedViewModel : ViewModel() {
             val database = WeatherApiDatabase.getDatabase(context)
             database?.weatherDao()?.deleteFavourite(cityName)
             _favourites.value = database?.weatherDao()?.getAllFavourites()
-
-            for (item in _favourites.value!!) {
-                Log.i("FAVOURITE", item.cityName)
-            }
         }
     }
 
@@ -208,7 +199,7 @@ class SharedViewModel : ViewModel() {
     fun removeAllCitiesFromRecents(context: Context) {
         viewModelScope.launch {
             val database = WeatherApiDatabase.getDatabase(context)
-            val response = database?.weatherDao()?.nukeRecents()
+            database?.weatherDao()?.nukeRecents()
         }
     }
 

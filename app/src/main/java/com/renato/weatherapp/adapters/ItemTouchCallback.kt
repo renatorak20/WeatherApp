@@ -5,10 +5,8 @@ import androidx.recyclerview.widget.ItemTouchHelper.DOWN
 import androidx.recyclerview.widget.ItemTouchHelper.UP
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class ItemTouchCallback(val recView: RecyclerView) : ItemTouchHelper.Callback() {
 
@@ -44,7 +42,6 @@ class ItemTouchCallback(val recView: RecyclerView) : ItemTouchHelper.Callback() 
     }
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-        TODO("Not yet implemented")
     }
 
     fun changeEnabled() {

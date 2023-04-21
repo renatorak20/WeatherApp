@@ -2,21 +2,17 @@ package com.renato.weatherapp.util
 
 import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
-import com.bumptech.glide.util.Util
 import com.google.android.gms.maps.model.LatLng
-import com.renato.weatherapp.MainActivity
 import com.renato.weatherapp.R
 
 
-class Preferences(private val context: Context) {
+class Preferences(val context: Context) {
 
     private val extrasUnit = context.resources.getStringArray(R.array.units)
     private val extrasLang = context.resources.getStringArray(R.array.languages)
     private val extrasCoord = context.resources.getStringArray(R.array.latlng)
-    private val extrasNotification = context.resources.getStringArray(R.array.notifications)
     private val preferences = context.getSharedPreferences(
         context.resources.getString(R.string.package_name),
         Context.MODE_PRIVATE
@@ -87,18 +83,6 @@ class Preferences(private val context: Context) {
 
     fun getMyCity(): String {
         return preferences.getString(resources.getString(R.string.myCity), "")!!
-    }
-
-    fun setNotificationsTime(hour: Int, minute: Int) {
-        preferences.edit().putInt(resources.getString(R.string.notificationsHour), hour).apply()
-        preferences.edit().putInt(resources.getString(R.string.notificationsMinute), minute).apply()
-    }
-
-    fun getNotificationsTime(): Pair<Int, Int> {
-        return Pair(
-            preferences.getInt(resources.getString(R.string.notificationsHour), 0),
-            preferences.getInt(resources.getString(R.string.notificationsHour), 0)
-        )
     }
 
 }

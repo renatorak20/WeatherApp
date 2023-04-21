@@ -7,7 +7,6 @@ import android.content.Intent
 import android.location.Location
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
-import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
 import coil.load
@@ -20,7 +19,6 @@ import com.renato.weatherapp.data.model.WeatherFavourite
 import com.renato.weatherapp.data.model.WeatherRecent
 import com.renato.weatherapp.data.model.WeatherResponseForecast
 import com.renato.weatherapp.ui.custom.CityDetailParameter
-import com.renato.weatherapp.ui.fragments.SettingsFragment
 import com.renato.weatherapp.ui.widget.Widget
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -28,6 +26,9 @@ import java.util.*
 
 class Utils {
 
+    companion object {
+        const val UPDATE_WIDGET = "com.renato.weatherapp.UPDATE_WIDGET"
+    }
 
     @SuppressLint("MissingPermission")
     fun isNetworkAvailable(context: Context): Boolean {
@@ -133,7 +134,7 @@ class Utils {
 
         val resources = activity.applicationContext.resources
 
-        var values = mutableListOf(
+        val values = mutableListOf(
             city.location.getCurrentDate(),
             city.location.getCurrentTime(),
             city.current.condition.text
@@ -185,14 +186,12 @@ class Utils {
     fun getDistanceKm(lat: Double, lon: Double, latLng: LatLng): Int {
         val results = FloatArray(1)
         Location.distanceBetween(lat, lon, latLng.latitude, latLng.longitude, results)
-        Log.i("RESULTS", results[0].toString())
         return (results[0] / 1000).toInt()
     }
 
     fun getDistanceMil(lat: Double, lon: Double, latLng: LatLng): Int {
         val results = FloatArray(1)
         Location.distanceBetween(lat, lon, latLng.latitude, latLng.longitude, results)
-        Log.i("RESULTS", results[0].toString())
         return (results[0] * 0.000621371).toInt()
     }
 
@@ -226,7 +225,7 @@ class Utils {
 
     fun updateWidget(context: Context) {
         val intent = Intent(context, Widget::class.java)
-        intent.action = SettingsFragment.UPDATE_WIDGET
+        intent.action = UPDATE_WIDGET
         context.sendBroadcast(intent)
     }
 }

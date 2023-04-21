@@ -1,16 +1,12 @@
 package com.renato.weatherapp.data.networking
 
-import com.renato.weatherapp.BuildConfig
 import com.renato.weatherapp.data.model.WeatherAutoCompleteResponse
 import com.renato.weatherapp.data.model.WeatherResponseForecast
-import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
-import javax.inject.Singleton
 
 interface WeatherService {
-
 
     @GET("forecast.json")
     suspend fun getForecast(@Query("key") key:String,
