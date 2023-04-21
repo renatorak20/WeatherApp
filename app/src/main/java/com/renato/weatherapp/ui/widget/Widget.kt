@@ -50,7 +50,7 @@ class Widget : AppWidgetProvider() {
 
         CoroutineScope(Dispatchers.IO).launch {
             val myCity = Preferences(context).getMyCity()
-            val response = Network().getService().getForecast(apiKey, myCity, 1)
+            val response = Network().getService().getForecast(apiKey, myCity, 2)
             val cityResponse = response.body()!!
 
             val views = RemoteViews(context.packageName, R.layout.widget_basic)
@@ -98,7 +98,6 @@ class Widget : AppWidgetProvider() {
     fun fillForecastHour(context: Context, views: RemoteViews, city: WeatherResponseForecast) {
         val hours = Utils().getNextThreeHoursConditions(city)
         val preferences = Preferences(context).getCurrentUnits()
-        if (hours.isNotEmpty()) {
             if (preferences) {
                 views.setTextViewText(
                     R.id.temperatureFirst,
@@ -160,7 +159,6 @@ class Widget : AppWidgetProvider() {
                 R.id.weatherThird,
                 loadImage(context, hours[2].condition.icon).get()
             )
-        }
 
         if (preferences) {
             views.setTextViewText(
@@ -186,7 +184,7 @@ class Widget : AppWidgetProvider() {
         views.setTextViewText(R.id.currentCondition, city.current.condition.text)
     }
 
-    fun loadImage(context: Context, cityIcon: String): FutureTarget<Bitmap> {
+    private fun loadImage(context: Context, cityIcon: String): FutureTarget<Bitmap> {
         return Glide.with(context)
             .asBitmap()
             .load(context.resources.getString(R.string.iconUrl, cityIcon))

@@ -49,10 +49,26 @@ class Utils {
     }
 
     fun getNextThreeHoursConditions(city: WeatherResponseForecast): List<Hour> {
-        if (city.location.getCurrentHour() > 20) {
-            return listOf()
+        return when (city.location.getCurrentHour()) {
+            22 -> {
+                val list =
+                    city.forecast.forecastday[0].hour.slice(city.location.getCurrentHour()..city.location.getCurrentHour() + 1)
+                        .toMutableList()
+                list.add(city.forecast.forecastday[1].hour[0])
+                list
+            }
+
+            23 -> {
+                val list =
+                    mutableListOf(city.forecast.forecastday[0].hour[city.location.getCurrentHour()])
+                list.addAll(city.forecast.forecastday[1].hour.slice(0..1))
+                list
+            }
+
+            else -> {
+                city.forecast.forecastday[0].hour.slice(city.location.getCurrentHour()..city.location.getCurrentHour() + 2)
+            }
         }
-        return city.forecast.forecastday[0].hour.slice(city.location.getCurrentHour()..city.location.getCurrentHour() + 3)
     }
 
     fun fillCityDetailParameters(
