@@ -44,7 +44,7 @@ class Utils {
             .show()
     }
 
-    fun getCurrentConditions(city: WeatherResponseForecast): Hour {
+    private fun getCurrentConditions(city: WeatherResponseForecast): Hour {
         return city.forecast.forecastday[0].hour[city.location.getCurrentHour()]
     }
 
@@ -161,7 +161,7 @@ class Utils {
     }
 
     fun weatherToFavourites(weather: WeatherResponseForecast): WeatherFavourite {
-        val newWeather = WeatherFavourite(
+        return WeatherFavourite(
             weather.location.name,
             weather.location.localtime,
             weather.location.tz_id,
@@ -169,11 +169,10 @@ class Utils {
             weather.current.temp_f.toInt(),
             weather.current.condition.icon
         )
-        return newWeather
     }
 
     fun weatherToRecent(weather: WeatherResponseForecast): WeatherRecent {
-        val newWeather = WeatherRecent(
+        return WeatherRecent(
             weather.location.name,
             weather.location.lat,
             weather.location.lon,
@@ -181,7 +180,6 @@ class Utils {
             weather.current.temp_f.toInt(),
             weather.current.condition.icon
         )
-        return newWeather
     }
 
     fun getDistanceKm(lat: Double, lon: Double, latLng: LatLng): Int {
@@ -231,13 +229,4 @@ class Utils {
         intent.action = SettingsFragment.UPDATE_WIDGET
         context.sendBroadcast(intent)
     }
-
-    @SuppressLint("UseCompatLoadingForDrawables")
-    fun iconHelper(context: Context, id: Int, isDay: Boolean): Int {
-        val drawableName = "_${id}_"
-        val drawableSuffix = if (isDay) "day" else "night"
-        val resourceName = drawableName + drawableSuffix
-        return context.resources.getIdentifier(resourceName, "drawable", context.packageName)
-    }
-
 }

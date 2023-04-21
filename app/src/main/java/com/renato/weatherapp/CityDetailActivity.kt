@@ -77,7 +77,6 @@ class CityDetailActivity : AppCompatActivity() {
         binding.back.setOnClickListener {
             finish()
         }
-
     }
 
     private fun setValues() {

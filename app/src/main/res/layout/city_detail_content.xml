@@ -61,19 +61,5 @@
             app:layout_constraintVertical_bias="1.0"
             tools:layout_editor_absoluteX="32dp" />
 
-        <Button
-            android:id="@+id/viewMoreButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="80dp"
-            android:layout_marginBottom="80dp"
-            android:textColor="@color/color_secondary"
-            android:background="@android:color/transparent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/map"
-            android:text="@string/view_more" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

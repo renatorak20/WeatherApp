@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
+
     <item android:state_pressed="true">
         <shape android:shape="rectangle">
             <stroke android:width="3dp" android:color="@color/status_error" />
@@ -9,7 +10,7 @@
             <corners android:radius="4dp" />
         </shape>
     </item>
-    <!-- Uvijek mi prikazuje plavu boju umjesto crvene -->
+
     <item>
         <shape android:shape="rectangle">
             <stroke android:width="3dp" android:color="@color/status_error" />
