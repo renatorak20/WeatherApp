@@ -1,7 +1,6 @@
 package com.renato.weatherapp
 
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
@@ -70,7 +69,7 @@ class CityDetailActivity : AppCompatActivity() {
             }
         }
 
-        sharedViewModel.getNewForecast(cityToLoad)
+        sharedViewModel.getNewForecast(cityToLoad, this)
 
         currentUnits = Preferences(this).getCurrentUnits()
 

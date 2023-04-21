@@ -98,7 +98,7 @@ class SearchFragment : Fragment() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if (s?.length!! == 3 && checkForInternet()) {
-                    sharedViewModel.getNewAutoCompleteList(s.toString())
+                    sharedViewModel.getNewAutoCompleteList(s.toString(), requireActivity())
                 } else if (s.isEmpty()) {
                     binding.autoCompleteCity.setAdapter(null)
                 }
@@ -131,7 +131,10 @@ class SearchFragment : Fragment() {
                 .show()
             false
         } else {
-            sharedViewModel.getNewAutoCompleteList(binding.autoCompleteCity.text.toString())
+            sharedViewModel.getNewAutoCompleteList(
+                binding.autoCompleteCity.text.toString(),
+                requireActivity()
+            )
             true
         }
     }

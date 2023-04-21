@@ -5,6 +5,8 @@ import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.renato.weatherapp.CityDetailActivity
+import com.renato.weatherapp.R
 import com.renato.weatherapp.data.model.WeatherAutoCompleteResponse
 import com.renato.weatherapp.data.model.WeatherFavourite
 import com.renato.weatherapp.data.model.WeatherRecent
@@ -28,8 +30,6 @@ class SharedViewModel : ViewModel() {
     private val _recents = MutableLiveData<List<WeatherRecent>>()
     private val _favLastUpdated = MutableLiveData<String>()
     private val _recLastUpdated = MutableLiveData<String>()
-
-    private val apiKey = "6c0c76f140cf4673aaa80504230704"
 
     fun setAutoCompleteList(results: Response<ArrayList<WeatherAutoCompleteResponse>>) {
         _autocompleteList.value = results
@@ -86,7 +86,11 @@ class SharedViewModel : ViewModel() {
             val allFavourites = database?.weatherDao()?.getAllFavourites()
             val newFavourites = allFavourites?.map { city ->
                 async {
-                    Network().getService().getForecast(apiKey, city.cityName, 1)
+                    Network().getService().getForecast(
+                        activity.applicationContext.resources.getString(
+                            R.string.apiKey
+                        ), city.cityName, 1
+                    )
                 }
             }
             val responses = newFavourites?.awaitAll()
@@ -99,13 +103,17 @@ class SharedViewModel : ViewModel() {
         }
     }
 
-    fun getUpdatedRecents(activity: Activity) {
+    fun getUpdatedRecents(context: Context) {
         viewModelScope.launch {
-            val database = WeatherApiDatabase.getDatabase(activity.applicationContext)
+            val database = WeatherApiDatabase.getDatabase(context)
             val allRecents = database?.weatherDao()?.getAllRecents()
             val newRecents = allRecents?.map { city ->
                 async {
-                    Network().getService().getForecast(apiKey, city.cityName, 1)
+                    Network().getService().getForecast(
+                        context.resources.getString(
+                            R.string.apiKey
+                        ), city.cityName, 1
+                    )
                 }
             }
             val responses = newRecents?.awaitAll()
@@ -123,18 +131,26 @@ class SharedViewModel : ViewModel() {
         _favLastUpdated.value = Preferences(activity).getFavouritesLastUpdated()
     }
 
-    fun getNewForecast(city: String) {
+    fun getNewForecast(city: String, context: Context) {
         viewModelScope.launch {
-            val forecastResponse = Network().getService().getForecast(apiKey, city, 8)
+            val forecastResponse = Network().getService().getForecast(
+                context.resources.getString(
+                    R.string.apiKey
+                ), city, 8
+            )
             if (forecastResponse.isSuccessful) {
                 setForecast(forecastResponse)
             }
         }
     }
 
-    fun getNewAutoCompleteList(city: String) {
+    fun getNewAutoCompleteList(city: String, context: Context) {
         viewModelScope.launch {
-            val response = Network().getService().getAutoComplete(apiKey, city)
+            val response = Network().getService().getAutoComplete(
+                context.resources.getString(
+                    R.string.apiKey
+                ), city
+            )
             if (response.isSuccessful) {
                 setAutoCompleteList(response)
             }
@@ -145,7 +161,11 @@ class SharedViewModel : ViewModel() {
         viewModelScope.launch {
             val cityToAdd =
                 async {
-                    Network().getService().getForecast(apiKey, cityName, 1)
+                    Network().getService().getForecast(
+                        context.resources.getString(
+                            R.string.apiKey
+                        ), cityName, 1
+                    )
                 }
 
             val response = cityToAdd.await()

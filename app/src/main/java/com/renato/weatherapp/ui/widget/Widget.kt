@@ -23,8 +23,6 @@ import kotlinx.coroutines.launch
 
 class Widget : AppWidgetProvider() {
 
-    private val apiKey = "6c0c76f140cf4673aaa80504230704"
-
     override fun onUpdate(
         context: Context?,
         appWidgetManager: AppWidgetManager?,
@@ -50,7 +48,8 @@ class Widget : AppWidgetProvider() {
 
         CoroutineScope(Dispatchers.IO).launch {
             val myCity = Preferences(context).getMyCity()
-            val response = Network().getService().getForecast(apiKey, myCity, 2)
+            val response = Network().getService()
+                .getForecast(context.resources.getString(R.string.apiKey), myCity, 2)
             val cityResponse = response.body()!!
 
             val views = RemoteViews(context.packageName, R.layout.widget_basic)
