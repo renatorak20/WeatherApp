@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import com.renato.weatherapp.CityDetailActivity
 import com.renato.weatherapp.R
 import com.renato.weatherapp.adapters.CityListAdapter
@@ -48,6 +49,7 @@ class SearchFragment : Fragment() {
 
         getUpdatedRecents()
 
+
         sharedViewModel.getAutoCompleteList().observe(viewLifecycleOwner) { cities ->
             if (cities.body()!!.isNotEmpty() && cities.isSuccessful) {
                 val adapter = cities.body()
@@ -64,6 +66,10 @@ class SearchFragment : Fragment() {
             }
         }
         sharedViewModel.getRecentsFromDb(requireContext())
+
+        sharedViewModel.getRecents().observe(viewLifecycleOwner) {
+            updateRecentsRecyclerView(it)
+        }
 
         binding.clearIcon.setOnClickListener {
             binding.autoCompleteCity.clear()
@@ -104,6 +110,7 @@ class SearchFragment : Fragment() {
         super.onStart()
         binding.autoCompleteCity.setText("")
         sharedViewModel.getRecentsFromDb(requireContext())
+        sharedViewModel.getFavouritesFromDb(requireContext())
 
         sharedViewModel.getRecents().observe(viewLifecycleOwner) {
             updateRecentsRecyclerView(it)
