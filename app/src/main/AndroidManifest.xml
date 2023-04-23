@@ -34,19 +34,6 @@
                 android:resource="@xml/widget_info" />
         </receiver>
 
-        <receiver
-            android:name=".util.notifications.AlarmReceiver"
-            android:enabled="true" />
-
-        <receiver
-            android:name=".util.notifications.BootReceiver"
-            android:enabled="true"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-            </intent-filter>
-        </receiver>
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="${MAPS_API_KEY}" />

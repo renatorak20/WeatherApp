@@ -47,46 +47,48 @@ class Widget : AppWidgetProvider() {
     ) {
 
         CoroutineScope(Dispatchers.IO).launch {
-            val myCity = Preferences(context).getMyCity()
-            val response = Network().getService()
-                .getForecast(context.resources.getString(R.string.apiKey), myCity, 2)
-            val cityResponse = response.body()!!
+            if (Preferences(context).getMyCity() != "") {
+                val myCity = Preferences(context).getMyCity()
+                val response = Network().getService()
+                    .getForecast(context.resources.getString(R.string.apiKey), myCity, 2)
+                val cityResponse = response.body()!!
 
-            val views = RemoteViews(context.packageName, R.layout.widget_basic)
+                val views = RemoteViews(context.packageName, R.layout.widget_basic)
 
-            if (Preferences(context).getCurrentUnits()) {
-                views.setTextViewText(
-                    R.id.temperature,
-                    context.getString(
-                        R.string.temperatureMetricValue,
-                        cityResponse.current.temp_c.toInt()
+                if (Preferences(context).getCurrentUnits()) {
+                    views.setTextViewText(
+                        R.id.temperature,
+                        context.getString(
+                            R.string.temperatureMetricValue,
+                            cityResponse.current.temp_c.toInt()
+                        )
                     )
-                )
-            } else {
-                views.setTextViewText(
-                    R.id.temperature,
-                    context.getString(
-                        R.string.temperatureImperialValue,
-                        cityResponse.current.temp_f.toInt()
+                } else {
+                    views.setTextViewText(
+                        R.id.temperature,
+                        context.getString(
+                            R.string.temperatureImperialValue,
+                            cityResponse.current.temp_f.toInt()
+                        )
                     )
+                }
+
+                views.setImageViewBitmap(
+                    R.id.icon,
+                    loadImage(context, cityResponse.current.condition.icon).get()
                 )
+                fillForecastHour(context, views, cityResponse)
+
+                val intent = Intent(context, MainActivity::class.java)
+                val pendingIntent = PendingIntent.getActivity(
+                    context,
+                    0,
+                    intent,
+                    PendingIntent.FLAG_IMMUTABLE
+                )
+                views.setOnClickPendingIntent(R.id.layout, pendingIntent)
+                appWidgetManager.updateAppWidget(appWidgetId, views)
             }
-
-            views.setImageViewBitmap(
-                R.id.icon,
-                loadImage(context, cityResponse.current.condition.icon).get()
-            )
-            fillForecastHour(context, views, cityResponse)
-
-            val intent = Intent(context, MainActivity::class.java)
-            val pendingIntent = PendingIntent.getActivity(
-                context,
-                0,
-                intent,
-                PendingIntent.FLAG_IMMUTABLE
-            )
-            views.setOnClickPendingIntent(R.id.layout, pendingIntent)
-            appWidgetManager.updateAppWidget(appWidgetId, views)
         }
     }
 

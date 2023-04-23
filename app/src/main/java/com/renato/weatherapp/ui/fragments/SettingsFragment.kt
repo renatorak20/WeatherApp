@@ -20,6 +20,7 @@ import com.renato.weatherapp.R
 import com.renato.weatherapp.databinding.FragmentSettingsBinding
 import com.renato.weatherapp.util.Preferences
 import com.renato.weatherapp.util.Utils
+import com.renato.weatherapp.util.notifications.ReminderNotificationWorker
 import com.renato.weatherapp.viewmodel.SharedViewModel
 
 
@@ -56,6 +57,7 @@ class SettingsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         loadSpinners()
+        scheduleReminderNotification()
 
         binding.about.moreInfoButton.setOnClickListener {
             startActivity(Intent(requireContext(), AboutActivity::class.java))
@@ -161,5 +163,9 @@ class SettingsFragment : Fragment() {
                 snackbar.show()
             }
             .show()
+    }
+
+    fun scheduleReminderNotification() {
+        ReminderNotificationWorker.schedule(requireContext())
     }
 }

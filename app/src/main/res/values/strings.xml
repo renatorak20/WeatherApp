@@ -106,9 +106,11 @@
 
     <!-- OTHER -->
     <string name="channel_name" translatable="false">Forecast notification</string>
-    <string name="channel_description" translatable="false">Your daily forecast</string>4
-    <string name="notifications_id" translatable="false">1</string>
+    <string name="channel_description" translatable="false">Your daily forecast</string>
     <string name="notavailable">Not available</string>
+    <string name="WORKER_TAG" translatable="false">WORKER TAG</string>
+    <string name="reminder_notification_work" translatable="false">Work</string>
+    <string name="notificationsDisabled">Permission denied, enable notifications in settings.</string>
 
     <string name="apiKey" translatable="false">730fb62a427b4beea97211516232104</string>
 
