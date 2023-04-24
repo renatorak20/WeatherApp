@@ -19,7 +19,7 @@ import com.renato.weatherapp.data.model.WeatherFavourite
 import com.renato.weatherapp.data.model.WeatherRecent
 import com.renato.weatherapp.data.model.WeatherResponseForecast
 import com.renato.weatherapp.ui.custom.CityDetailParameter
-import com.renato.weatherapp.ui.widget.Widget
+import com.renato.weatherapp.widget.Widget
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*

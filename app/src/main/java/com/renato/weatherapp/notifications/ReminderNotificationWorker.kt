@@ -1,4 +1,4 @@
-package com.renato.weatherapp.util.notifications
+package com.renato.weatherapp.notifications
 
 import android.content.Context
 import androidx.work.ExistingPeriodicWorkPolicy

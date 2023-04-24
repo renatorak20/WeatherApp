@@ -113,5 +113,6 @@
     <string name="notificationsDisabled">Permission denied, enable notifications in settings.</string>
 
     <string name="apiKey" translatable="false">730fb62a427b4beea97211516232104</string>
+    <string name="title_activity_maps" translatable="false">MapsActivity</string>
 
 </resources>

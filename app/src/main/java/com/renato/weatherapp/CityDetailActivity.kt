@@ -1,11 +1,13 @@
 package com.renato.weatherapp
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.app.ActivityOptionsCompat
 import androidx.core.view.children
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -29,6 +31,7 @@ class CityDetailActivity : AppCompatActivity() {
     private lateinit var sharedViewModel: SharedViewModel
     private var iconFlag = false
     private var currentUnits: Boolean = true
+    private var isMapTransitionEnabled = false
 
     private val callback = OnMapReadyCallback { googleMap ->
         val cityLocation = LatLng(
@@ -55,6 +58,7 @@ class CityDetailActivity : AppCompatActivity() {
         sharedViewModel.getForecast().observe(this) { city ->
             if (city.isSuccessful) {
                 setValues()
+                isMapTransitionEnabled = true
             } else {
                 Utils().showErrorDialog(this)
             }
@@ -68,7 +72,26 @@ class CityDetailActivity : AppCompatActivity() {
         binding.back.setOnClickListener {
             finish()
         }
+
+        binding.content.viewMoreButton.setOnClickListener {
+            if (isMapTransitionEnabled) {
+                startMapActivity()
+            }
+        }
     }
+
+    fun startMapActivity() {
+        val intent = Intent(this, MapsActivity::class.java)
+        intent.putExtra(
+            resources.getString(R.string.passing_data),
+            LatLng(
+                sharedViewModel.getForecastValue().location.lat,
+                sharedViewModel.getForecastValue().location.lon
+            )
+        )
+        startActivity(intent)
+    }
+
 
     private fun setValues() {
 

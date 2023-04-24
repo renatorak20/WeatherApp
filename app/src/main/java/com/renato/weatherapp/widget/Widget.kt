@@ -1,4 +1,4 @@
-package com.renato.weatherapp.ui.widget
+package com.renato.weatherapp.widget
 
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager

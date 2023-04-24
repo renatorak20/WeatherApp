@@ -49,7 +49,6 @@ class SearchFragment : Fragment() {
 
         getUpdatedRecents()
 
-
         sharedViewModel.getAutoCompleteList().observe(viewLifecycleOwner) { cities ->
             if (cities.body()!!.isNotEmpty() && cities.isSuccessful) {
                 val adapter = cities.body()
@@ -108,7 +107,7 @@ class SearchFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        binding.autoCompleteCity.setText("")
+
         sharedViewModel.getRecentsFromDb(requireContext())
         sharedViewModel.getFavouritesFromDb(requireContext())
 

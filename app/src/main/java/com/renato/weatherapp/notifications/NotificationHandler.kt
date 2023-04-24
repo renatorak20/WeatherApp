@@ -1,4 +1,4 @@
-package com.renato.weatherapp.util.notifications
+package com.renato.weatherapp.notifications
 
 import android.annotation.SuppressLint
 import android.app.NotificationChannel
