@@ -16,7 +16,7 @@ const val TYPE_DAYS = 1
 
 class CityForecastAdapter(
     val context: Context,
-    val array: ArrayList<Any>,
+    private val array: ArrayList<Any>,
     private val currentUnits: Boolean,
     private val type: Int
 ) : RecyclerView.Adapter<CityForecastAdapter.CityItemViewHolder>() {

@@ -9,6 +9,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
+import androidx.core.app.ActivityOptionsCompat
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.google.android.material.snackbar.Snackbar
@@ -162,12 +164,10 @@ class CityListAdapter(
     }
 
     fun startCityDetailActivity(cityName: String) {
-        context.startActivity(
-            Intent(context, CityDetailActivity::class.java).putExtra(
-                context.getString(R.string.passing_data),
-                cityName
-            ).addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
-        )
+        val intent = Intent(context, CityDetailActivity::class.java)
+        intent.putExtra(context.getString(R.string.passing_data), cityName)
+            .addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+        activity.startActivity(intent)
     }
 
     private fun checkDragSwitch(holder: CityItemViewHolder) {

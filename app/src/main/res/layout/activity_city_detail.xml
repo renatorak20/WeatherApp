@@ -16,14 +16,14 @@
         android:background="?attr/surface_surface_0">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="110dp"
             android:fitsSystemWindows="true"
             app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
             android:background="?attr/surface_surface_1"
             app:expandedTitleTextAppearance="@style/HeadlineLargeNLv1Left"
-            app:collapsedTitleTextAppearance="@style/HeadlineMediumNLv1Left"
-            android:id="@+id/collapsing_toolbar">
+            app:collapsedTitleTextAppearance="@style/HeadlineMediumNLv1Left">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar_city"

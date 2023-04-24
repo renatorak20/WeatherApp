@@ -47,6 +47,10 @@ class SharedViewModel : ViewModel() {
         return _forecast
     }
 
+    fun getForecastValue(): WeatherResponseForecast {
+        return getForecast().value!!.body()!!
+    }
+
     fun getFavourites(): MutableLiveData<List<WeatherFavourite>> {
         return _favourites
     }

@@ -24,7 +24,6 @@ class CityDetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCityDetailBinding
     private lateinit var cityToLoad: String
-    private lateinit var city: WeatherResponseForecast
     private lateinit var toolbar: Toolbar
     private lateinit var toolbarItem: MenuItem
     private lateinit var sharedViewModel: SharedViewModel
@@ -32,7 +31,10 @@ class CityDetailActivity : AppCompatActivity() {
     private var currentUnits: Boolean = true
 
     private val callback = OnMapReadyCallback { googleMap ->
-        val cityLocation = LatLng(city.location.lat, city.location.lon)
+        val cityLocation = LatLng(
+            sharedViewModel.getForecastValue().location.lat,
+            sharedViewModel.getForecastValue().location.lon
+        )
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(cityLocation, 12.0f))
     }
 
@@ -46,27 +48,17 @@ class CityDetailActivity : AppCompatActivity() {
         toolbar = binding.toolbarCity
 
         cityToLoad = intent.getStringExtra(getString(R.string.passing_data))!!
+        binding.collapsingToolbar.title = cityToLoad
 
         sharedViewModel = ViewModelProvider(this)[SharedViewModel::class.java]
 
         sharedViewModel.getForecast().observe(this) { city ->
             if (city.isSuccessful) {
-                this.city = city.body()!!
                 setValues()
             } else {
                 Utils().showErrorDialog(this)
             }
             sharedViewModel.addCityToRecents(this)
-        }
-
-        sharedViewModel.getFavourites().observe(this) { cities ->
-            iconFlag = if (cities.map { it.cityName }.toList().contains(cityToLoad)) {
-                toolbarItem.setIcon(R.drawable.ic_star_filled)
-                true
-            } else {
-                toolbarItem.setIcon(R.drawable.ic_star_outline)
-                false
-            }
         }
 
         sharedViewModel.getNewForecast(cityToLoad, this)
@@ -85,10 +77,14 @@ class CityDetailActivity : AppCompatActivity() {
         val viewHeader =
             binding.content.cityDetailHead.basicInfo.root.children.filterIsInstance<TextView>()
 
-        binding.collapsingToolbar.title = city.location.name
-        Utils().fillCityDetailParameters(this, viewParameters, city)
-        Utils().fillCityHeader(this, viewHeader, city)
-        Utils().setCityMainIcon(this, binding.content.cityDetailHead.basicInfo.weatherImage, city)
+
+        Utils().fillCityDetailParameters(this, viewParameters, sharedViewModel.getForecastValue())
+        Utils().fillCityHeader(this, viewHeader, sharedViewModel.getForecastValue())
+        Utils().setCityMainIcon(
+            this,
+            binding.content.cityDetailHead.basicInfo.weatherImage,
+            sharedViewModel.getForecastValue()
+        )
 
         setupRecyclerViews()
         setupMap()
@@ -98,14 +94,15 @@ class CityDetailActivity : AppCompatActivity() {
     private fun setupRecyclerViews() {
         binding.content.cityDetailToday.hoursRecyclerView.adapter = CityForecastAdapter(
             this,
-            (city.forecast.forecastday[0].hour) as ArrayList<Any>,
+            (sharedViewModel.getForecastValue().forecast.forecastday[0].hour) as ArrayList<Any>,
             currentUnits,
             0
         )
-        binding.content.cityDetailToday.hoursRecyclerView.smoothScrollToPosition(city.location.getCurrentHour())
+        binding.content.cityDetailToday.hoursRecyclerView.smoothScrollToPosition(sharedViewModel.getForecastValue().location.getCurrentHour())
         binding.content.cityDetailDays.daysRecyclerView.adapter = CityForecastAdapter(
             this,
-            (city.forecast.forecastday.slice(IntRange(1, 7)).toList() as ArrayList<Any>),
+            (sharedViewModel.getForecastValue().forecast.forecastday.slice(IntRange(1, 7))
+                .toList() as ArrayList<Any>),
             currentUnits,
             1
         )
@@ -122,6 +119,16 @@ class CityDetailActivity : AppCompatActivity() {
 
         sharedViewModel.getFavouritesFromDb(this)
 
+        sharedViewModel.getFavourites().observe(this) { cities ->
+            iconFlag = if (cities.map { it.cityName }.toList().contains(cityToLoad)) {
+                toolbarItem.setIcon(R.drawable.ic_star_filled)
+                true
+            } else {
+                toolbarItem.setIcon(R.drawable.ic_star_outline)
+                false
+            }
+        }
+
         return true
     }
 
@@ -133,9 +140,11 @@ class CityDetailActivity : AppCompatActivity() {
                 sharedViewModel.removeCityFromFavourites(this, cityToLoad)
             } else {
                 item.setIcon(R.drawable.ic_star_filled)
-                sharedViewModel.addCityToFavourites(this, city.location.name)
+                sharedViewModel.addCityToFavourites(
+                    this,
+                    sharedViewModel.getForecastValue().location.name
+                )
             }
-            iconFlag = !iconFlag
         }
         return super.onOptionsItemSelected(item)
     }
