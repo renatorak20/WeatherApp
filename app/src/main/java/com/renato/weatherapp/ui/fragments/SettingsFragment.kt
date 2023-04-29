@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -73,8 +74,8 @@ class SettingsFragment : Fragment() {
         binding.citySelector.setOnItemClickListener { adapterView, view, i, l ->
             Preferences(requireActivity()).setMyCity(
                 binding.citySelector.adapter.getItem(i).toString(),
-                sharedViewModel.getRecents().value?.get(i)?.latitude!!.toFloat(),
-                sharedViewModel.getRecents().value?.get(i)?.longitude!!.toFloat()
+                sharedViewModel.getFavourites().value?.get(i)?.latitude!!,
+                sharedViewModel.getFavourites().value?.get(i)?.longitude!!
             )
             if (Utils().isNetworkAvailable(requireContext())) {
                 Utils().updateWidget(requireContext())

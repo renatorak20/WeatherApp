@@ -168,7 +168,9 @@ class Utils {
             weather.location.tz_id,
             weather.current.temp_c.toInt(),
             weather.current.temp_f.toInt(),
-            weather.current.condition.icon
+            weather.current.condition.icon,
+            weather.location.lat.toFloat(),
+            weather.location.lon.toFloat()
         )
     }
 

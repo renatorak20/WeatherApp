@@ -4,18 +4,14 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
-import androidx.core.app.ActivityOptionsCompat
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import com.google.android.material.snackbar.Snackbar
+import com.bumptech.glide.util.Util
 import com.renato.weatherapp.CityDetailActivity
-import com.renato.weatherapp.MainActivity
 import com.renato.weatherapp.R
 import com.renato.weatherapp.data.model.WeatherFavourite
 import com.renato.weatherapp.data.model.WeatherRecent
@@ -88,9 +84,9 @@ class CityListAdapter(
                 holder.binding.titleText.text = city.cityName
                 holder.binding.imageWeather.load(context.getString(R.string.iconUrl, city.icon))
 
-                val dms = Utils().convertToDMS(city.latitude, city.longitude)
+                val thisDms = Utils().convertToDMS(city.latitude, city.longitude)
                 holder.binding.firstText.text =
-                    context.getString(R.string.dms, dms.first, dms.second)
+                    context.getString(R.string.dms, thisDms.first, thisDms.second)
 
 
 

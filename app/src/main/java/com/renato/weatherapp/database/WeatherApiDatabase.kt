@@ -9,7 +9,7 @@ import com.renato.weatherapp.data.model.WeatherRecent
 
 @Database(
     entities = [WeatherFavourite::class, WeatherRecent::class],
-    version = 4,
+    version = 5,
     exportSchema = false
 )
 abstract class WeatherApiDatabase : RoomDatabase() {

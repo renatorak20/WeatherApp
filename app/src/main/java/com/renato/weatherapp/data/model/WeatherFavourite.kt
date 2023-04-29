@@ -26,7 +26,11 @@ data class WeatherFavourite(
     @ColumnInfo(name = "temperature_f")
     val temperatureF: Int,
     @ColumnInfo(name = "icon")
-    val icon: String
+    val icon: String,
+    @ColumnInfo(name = "latitude")
+    val latitude: Float,
+    @ColumnInfo(name = "longitude")
+    val longitude: Float
 ) {
 
     private fun getFullCurrentTime(): String {
