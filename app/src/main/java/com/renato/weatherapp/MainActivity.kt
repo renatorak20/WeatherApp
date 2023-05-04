@@ -1,12 +1,17 @@
 package com.renato.weatherapp
 
+import android.Manifest.permission.POST_NOTIFICATIONS
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.core.view.WindowCompat
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.color.DynamicColors
 import com.renato.weatherapp.databinding.ActivityMainBinding
 import com.renato.weatherapp.util.Preferences
 
@@ -33,6 +38,33 @@ class MainActivity : AppCompatActivity() {
         binding.navView.setupWithNavController(navController)
 
         Preferences(this).loadAppLanguage()
+
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                POST_NOTIFICATIONS
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(this, arrayOf(POST_NOTIFICATIONS), 100)
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when (requestCode) {
+            100 -> {
+                if (!(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                    Toast.makeText(
+                        this,
+                        resources.getString(R.string.notificationsDisabled),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        }
     }
 }
 

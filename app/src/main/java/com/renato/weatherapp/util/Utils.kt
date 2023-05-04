@@ -1,22 +1,34 @@
 package com.renato.weatherapp.util
 
 import android.annotation.SuppressLint
-import android.app.Activity
+import android.app.*
 import android.content.Context
+import android.content.Intent
+import android.location.Location
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.compose.ui.res.booleanResource
 import coil.load
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.renato.weatherapp.MainActivity
 import com.renato.weatherapp.R
 import com.renato.weatherapp.data.model.Hour
+import com.renato.weatherapp.data.model.WeatherFavourite
+import com.renato.weatherapp.data.model.WeatherRecent
 import com.renato.weatherapp.data.model.WeatherResponseForecast
 import com.renato.weatherapp.ui.custom.CityDetailParameter
+import com.renato.weatherapp.widget.Widget
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.*
 
 class Utils {
 
+    companion object {
+        const val UPDATE_WIDGET = "com.renato.weatherapp.UPDATE_WIDGET"
+    }
 
     @SuppressLint("MissingPermission")
     fun isNetworkAvailable(context: Context): Boolean {
@@ -33,8 +45,31 @@ class Utils {
             .show()
     }
 
-    fun getCurrentConditions(city: WeatherResponseForecast): Hour {
+    private fun getCurrentConditions(city: WeatherResponseForecast): Hour {
         return city.forecast.forecastday[0].hour[city.location.getCurrentHour()]
+    }
+
+    fun getNextThreeHoursConditions(city: WeatherResponseForecast): List<Hour> {
+        return when (city.location.getCurrentHour()) {
+            22 -> {
+                val list =
+                    city.forecast.forecastday[0].hour.slice(city.location.getCurrentHour()..city.location.getCurrentHour() + 1)
+                        .toMutableList()
+                list.add(city.forecast.forecastday[1].hour[0])
+                list
+            }
+
+            23 -> {
+                val list =
+                    mutableListOf(city.forecast.forecastday[0].hour[city.location.getCurrentHour()])
+                list.addAll(city.forecast.forecastday[1].hour.slice(0..1))
+                list
+            }
+
+            else -> {
+                city.forecast.forecastday[0].hour.slice(city.location.getCurrentHour()..city.location.getCurrentHour() + 2)
+            }
+        }
     }
 
     fun fillCityDetailParameters(
@@ -99,7 +134,7 @@ class Utils {
 
         val resources = activity.applicationContext.resources
 
-        var values = mutableListOf(
+        val values = mutableListOf(
             city.location.getCurrentDate(),
             city.location.getCurrentTime(),
             city.current.condition.text
@@ -126,4 +161,73 @@ class Utils {
         imageView.load(activity.resources.getString(R.string.iconUrl, city.current.condition.icon))
     }
 
+    fun weatherToFavourites(weather: WeatherResponseForecast): WeatherFavourite {
+        return WeatherFavourite(
+            weather.location.name,
+            weather.location.localtime,
+            weather.location.tz_id,
+            weather.current.temp_c.toInt(),
+            weather.current.temp_f.toInt(),
+            weather.current.condition.icon,
+            weather.location.lat.toFloat(),
+            weather.location.lon.toFloat()
+        )
+    }
+
+    fun weatherToRecent(weather: WeatherResponseForecast): WeatherRecent {
+        return WeatherRecent(
+            weather.location.name,
+            weather.location.lat,
+            weather.location.lon,
+            weather.current.temp_c.toInt(),
+            weather.current.temp_f.toInt(),
+            weather.current.condition.icon
+        )
+    }
+
+    fun getDistanceKm(lat: Double, lon: Double, latLng: LatLng): Int {
+        val results = FloatArray(1)
+        Location.distanceBetween(lat, lon, latLng.latitude, latLng.longitude, results)
+        return (results[0] / 1000).toInt()
+    }
+
+    fun getDistanceMil(lat: Double, lon: Double, latLng: LatLng): Int {
+        val results = FloatArray(1)
+        Location.distanceBetween(lat, lon, latLng.latitude, latLng.longitude, results)
+        return (results[0] * 0.000621371).toInt()
+    }
+
+    fun getCurrentTime(): String {
+        val currentDateTime = LocalDateTime.now()
+        val formatter = DateTimeFormatter.ofPattern("HH:mm:ss dd.MM.yyyy")
+        return currentDateTime.format(formatter)
+    }
+
+    fun convertToDMS(latitude: Double, longitude: Double): Pair<String, String> {
+        val latDegree = latitude.toInt()
+        val latMinute = ((latitude - latDegree) * 60).toInt()
+        val latSecond = (((latitude - latDegree) * 60) - latMinute) * 60
+        val latDirection = if (latitude > 0) "N" else "S"
+        val lonDegree = longitude.toInt()
+        val lonMinute = ((longitude - lonDegree) * 60).toInt()
+        val lonSecond = (((longitude - lonDegree) * 60) - lonMinute) * 60
+        val lonDirection = if (longitude > 0) "E" else "W"
+        return Pair(
+            "$latDegree°$latMinute′${String.format("%.0f", latSecond)}″$latDirection",
+            "$lonDegree°$lonMinute′${String.format("%.0f", lonSecond)}″$lonDirection"
+        )
+    }
+
+    fun restartApp(activity: Activity) {
+        val intent = Intent(activity, MainActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+        activity.startActivity(intent)
+        activity.finish()
+    }
+
+    fun updateWidget(context: Context) {
+        val intent = Intent(context, Widget::class.java)
+        intent.action = UPDATE_WIDGET
+        context.sendBroadcast(intent)
+    }
 }

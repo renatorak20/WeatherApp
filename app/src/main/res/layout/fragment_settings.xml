@@ -80,6 +80,7 @@
             android:textColorHint="@color/color_secondary">
 
             <AutoCompleteTextView
+                android:id="@+id/citySelector"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:inputType="none"
@@ -113,6 +114,22 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/unit_selector" />
 
+        <!--
+        <include
+            android:id="@+id/notifications"
+            layout="@layout/set_notifications_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/about" />
+            -->
+
+
         <Button
             android:id="@+id/clearMyCities"
             android:layout_width="match_parent"
@@ -123,8 +140,9 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/about"
             android:text="@string/clearMyCitiesList"
-            android:textColor="@color/status_error"
-            android:background="@drawable/settings_button" />
+            android:textColor="@drawable/settings_button_text"
+            android:background="@drawable/settings_button"
+            app:backgroundTint="@null" />
 
 
         <Button
@@ -139,8 +157,9 @@
             app:layout_constraintTop_toBottomOf="@+id/clearMyCities"
             app:layout_constraintBottom_toBottomOf="@id/constraintLayout"
             android:text="@string/clearRecentSearchList"
-            android:textColor="@color/status_error"
-            android:background="@drawable/settings_button" />
+            android:textColor="@drawable/settings_button_text"
+            android:background="@drawable/settings_button"
+            app:backgroundTint="@null" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

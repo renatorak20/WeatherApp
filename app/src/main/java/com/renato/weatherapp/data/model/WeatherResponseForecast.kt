@@ -1,8 +1,8 @@
 package com.renato.weatherapp.data.model
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Resources
-import android.provider.Settings.Global.getString
 import com.renato.weatherapp.R
 import java.io.Serializable
 import java.text.SimpleDateFormat
@@ -28,6 +28,7 @@ data class Location(
     val tz_id: String
 ) : Serializable {
 
+    @SuppressLint("SimpleDateFormat")
     fun getCurrentDate(): String {
         val dateFormat = SimpleDateFormat("EEE, MMMM dd")
         return dateFormat.format(localtime_epoch)
@@ -141,19 +142,19 @@ data class Hour(
     }
 
     fun getMetricWind(context: Context): String {
-        var wind_direction: String
-        var res = context.resources
+        val wind_direction: String
+        val res = context.resources
         return if (wind_dir.length == 3) {
             wind_direction = getWindDirection(res)
             res.getString(R.string.windMetricValue, wind_kph.toInt(), wind_direction)
         } else {
-            res.getString(R.string.windMetricValue, wind_kph, wind_dir)
+            res.getString(R.string.windMetricValue, wind_kph.toInt(), wind_dir)
         }
     }
 
     fun getImperialWind(context: Context): String {
-        var wind_direction: String
-        var res = context.resources
+        val wind_direction: String
+        val res = context.resources
         return if (wind_dir.length == 3) {
             wind_direction = getWindDirection(res)
             res.getString(R.string.windImperialValue, wind_mph.toInt(), wind_direction)
@@ -162,7 +163,7 @@ data class Hour(
         }
     }
 
-    fun getWindDirection(res: Resources): String {
+    private fun getWindDirection(res: Resources): String {
         return res.getString(
             R.string.windDirectionValue,
             wind_dir.substring(0, 1),

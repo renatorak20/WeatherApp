@@ -37,12 +37,22 @@
     <string name="clearRecentSearchList">OBRIŠI POPIS NEDAVNIH PRETRAŽIVANJA</string>
     <string name="croatian">Hrvatski</string>
     <string name="english">Engleski</string>
+    <string name="clear_recent_title">Očistiti popis nedavnih pretraga?</string>
+    <string name="clear_recent_desc">Ako izbrišete popis nedavnih pretraga, vaš će početni zaslon biti prazan.</string>
+    <string name="clear_cap">IZBRIŠI</string>
+    <string name="cancel_cap">ODUSTANI</string>
+    <string name="clear_recent_snackbar">Popis nedavnih pretraga je izbrisan.</string>
+    <string name="set_time">PROMIJENI</string>
+    <string name="select_time">Odaberi vrijeme</string>
+    <string name="notifications">Obavijesti</string>
+    <string name="notifications_desc">Dobij prognozu u:</string>
 
     <!--MY CITITES FRAGMENT-->
     <string name="myCitiesTitle">Moji Gradovi</string>
     <string name="calendar_item">Calendar Item</string>
     <string name="edit_item">Edit Item</string>
     <string name="done_item">Done Item</string>
+    <string name="errorRefreshing">Nije moguće dohvatiti najnoviju prognozu.</string>
 
     <!-- SEARCH FRAGMENT-->
     <string name="search_bar_hint">Pretraži Gradove</string>
@@ -53,6 +63,9 @@
     <string name="ok">U redu</string>
     <string name="error">Pogreška</string>
     <string name="httpError">Oops! Trenutno nema prognoze za tebe, pokušaj ponovno kasnije!</string>
+    <string name="recents">Nedavno pretraživano</string>
+    <string name="distance_km">Udaljenost: %1$d km</string>
+    <string name="distance_mil">Udaljenost: %1$d mil</string>
 
     <!-- CITY DETAIL ACTIVITY-->
     <string name="favourite_item">Favourite Item</string>
@@ -62,5 +75,9 @@
     <string name="today">Danas</string>
     <string name="loading">Učitavanje...</string>
 
+    <string name="lastUpdated">Zadnje ažurirano: %1$s</string>
+    <string name="notUpdated">Još nije ažurirano!</string>
+    <string name="notavailable">Nije dostupno</string>
+    <string name="notificationsDisabled">Dopuštenje odbijeno, uključite obavijesti u postavkama.</string>
 
 </resources>

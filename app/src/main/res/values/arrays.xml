@@ -13,4 +13,16 @@
         <item>hr</item>
     </string-array>
 
+    <string-array name="latlng">
+        <item>latlng</item>
+        <item>lat</item>
+        <item>lng</item>
+    </string-array>
+
+    <string-array name="notifications">
+        <item>notification</item>
+        <item>hour</item>
+        <item>minute</item>
+    </string-array>
+
 </resources>

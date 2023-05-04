@@ -5,6 +5,7 @@
     <item android:id="@+id/menu_item_favourite"
         android:icon="@drawable/ic_star_outline"
         android:title="@string/favourite_item"
+        app:iconTint="?attr/colorSecondary"
         app:showAsAction="always" />
 
 </menu>

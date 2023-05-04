@@ -15,10 +15,15 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import com.renato.weatherapp.CityDetailActivity
 import com.renato.weatherapp.R
+import com.renato.weatherapp.adapters.CityListAdapter
+import com.renato.weatherapp.data.model.WeatherRecent
 import com.renato.weatherapp.databinding.FragmentSearchBinding
+import com.renato.weatherapp.util.Preferences
 import com.renato.weatherapp.util.Utils
 import com.renato.weatherapp.viewmodel.SharedViewModel
 
@@ -42,6 +47,7 @@ class SearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        getUpdatedRecents()
 
         sharedViewModel.getAutoCompleteList().observe(viewLifecycleOwner) { cities ->
             if (cities.body()!!.isNotEmpty() && cities.isSuccessful) {
@@ -57,6 +63,11 @@ class SearchFragment : Fragment() {
             } else {
                 Utils().showErrorDialog(requireContext())
             }
+        }
+        sharedViewModel.getRecentsFromDb(requireContext())
+
+        sharedViewModel.getRecents().observe(viewLifecycleOwner) {
+            updateRecentsRecyclerView(it)
         }
 
         binding.clearIcon.setOnClickListener {
@@ -86,12 +97,23 @@ class SearchFragment : Fragment() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if (s?.length!! == 3 && checkForInternet()) {
-                    sharedViewModel.getNewAutoCompleteList(s.toString())
+                    sharedViewModel.getNewAutoCompleteList(s.toString(), requireActivity())
                 } else if (s.isEmpty()) {
                     binding.autoCompleteCity.setAdapter(null)
                 }
             }
         })
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        sharedViewModel.getRecentsFromDb(requireContext())
+        sharedViewModel.getFavouritesFromDb(requireContext())
+
+        sharedViewModel.getRecents().observe(viewLifecycleOwner) {
+            updateRecentsRecyclerView(it)
+        }
     }
 
     fun checkForInternet(): Boolean {
@@ -108,7 +130,10 @@ class SearchFragment : Fragment() {
                 .show()
             false
         } else {
-            sharedViewModel.getNewAutoCompleteList(binding.autoCompleteCity.text.toString())
+            sharedViewModel.getNewAutoCompleteList(
+                binding.autoCompleteCity.text.toString(),
+                requireActivity()
+            )
             true
         }
     }
@@ -130,6 +155,24 @@ class SearchFragment : Fragment() {
                 binding.autoCompleteCity.text.toString()
             ).addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
         )
+    }
+
+    private fun updateRecentsRecyclerView(recents: List<WeatherRecent>) {
+        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        val adapter = CityListAdapter(
+            requireContext(),
+            recents as ArrayList<Any>,
+            sharedViewModel,
+            Preferences(requireActivity()).getCurrentUnits(),
+            requireActivity()
+        )
+        binding.recyclerView.adapter = adapter
+    }
+
+    private fun getUpdatedRecents() {
+        if (context?.let { Utils().isNetworkAvailable(it) } == true) {
+            sharedViewModel.getUpdatedRecents(requireActivity())
+        }
     }
 
 }

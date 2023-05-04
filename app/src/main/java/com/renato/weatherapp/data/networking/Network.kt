@@ -1,10 +1,5 @@
 package com.renato.weatherapp.data.networking
 
-import android.annotation.SuppressLint
-import android.app.Activity
-import android.content.Context
-import android.net.ConnectivityManager
-import android.net.NetworkInfo
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -15,8 +10,6 @@ class Network {
 
     private val service: WeatherService
     private val baseURL = "https://api.weatherapi.com/v1/"
-
-
 
     fun getService(): WeatherService {
         return service

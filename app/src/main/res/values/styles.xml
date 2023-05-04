@@ -1,0 +1,45 @@
+<resources>
+
+    <style name="CutShapeTheme" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
+        <item name="shapeAppearanceMediumComponent">@style/CutShapeAppearance</item>
+    </style>
+
+    <style name="CutShapeAppearance" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerFamily">cut</item>
+        <item name="cornerSize">10dp</item>
+    </style>
+
+    <style name="CustomFont" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
+        <item name="android:fontStyle">@style/HeadlineMediumNLv1Left</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+    <style name="AlertDialogTheme">
+        <item name="buttonBarPositiveButtonStyle">@style/Alert.Button.Positive</item>
+        <item name="buttonBarNegativeButtonStyle">@style/Alert.Button.Negative</item>
+        <item name="android:background">?attr/surface_surface_1</item>
+    </style>
+
+    <style name="Alert.Button.Positive" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="backgroundTint">@color/color_secondary</item>
+        <item name="rippleColor">@color/color_secondary</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:padding">8dp</item>
+    </style>
+
+    <style name="Alert.Button.Negative" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="backgroundTint">@android:color/transparent</item>
+        <item name="rippleColor">@color/color_secondary</item>
+        <item name="android:textColor">@color/color_secondary</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:layout_marginEnd">15dp</item>
+    </style>
+
+    <style name="MyWidgetTheme" parent="Theme.Material3.DynamicColors.DayNight">
+        <!-- Override default colorBackground attribute with custom color. -->
+        <item name="android:colorBackground">@color/surface_surface_2</item>
+    </style>
+
+</resources>
